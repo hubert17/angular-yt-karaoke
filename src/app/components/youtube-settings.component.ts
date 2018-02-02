@@ -14,7 +14,7 @@ import { Http } from '@angular/http';
 
 export class SettingsComponent implements OnInit {
 
-    private finished = false;
+    finished = false;
     notify: any;
 
     _shared: any;

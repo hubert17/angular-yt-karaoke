@@ -1,30 +1,4 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <base href="/">
-        <title>YouTube Player v2.0</title>
-        <link rel="icon" href="favicon.ico">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="assets/css/normalize.css">
-        <link rel="stylesheet" href="assets/css/main.css">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />        
-    </head>
-    <body class="">
-        <div class="update-bar">
-            <div id="output">Checking for updates...</div>
-            <span class="update-loading">
-                <span class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></span>       
-            </span>
-            <div id="update-buttons"></div>
-        </div>
-        <app-yt>
-            <div class="loading-app">
-                <i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i>
-                <span class="sr-only">Loading...</span>
-            </div>
-        </app-yt>
-        <script>
-            const AutoUpdater = require( "nw-autoupdater" ),
+<!DOCTYPE html><html><head><base href="/"><title>YouTube Player v2.0</title><link rel="icon" href="favicon.ico"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="assets/css/normalize.css"><link rel="stylesheet" href="assets/css/main.css"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/><link href="styles.9c0ad738f18adc3d19ed.bundle.css" rel="stylesheet"/></head><body class=""><div class="update-bar"><div id="output">Checking for updates...</div><span class="update-loading"><span class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></span></span><div id="update-buttons"></div></div><app-yt><div class="loading-app"><i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i> <span class="sr-only">Loading...</span></div></app-yt><script>const AutoUpdater = require( "nw-autoupdater" ),
                 updater = new AutoUpdater( require( "./package.json" ) ),
                 output =  document.querySelector( "#output" ),
                 updateBar = document.getElementsByClassName("update-bar")[0].classList;   
@@ -115,8 +89,4 @@
                     });
             }
 
-            main(false);
-
-        </script>
-    <script type="text/javascript" src="inline.bundle.js"></script><script type="text/javascript" src="polyfills.bundle.js"></script><script type="text/javascript" src="styles.bundle.js"></script><script type="text/javascript" src="vendor.bundle.js"></script><script type="text/javascript" src="main.bundle.js"></script></body>
-</html>
+            main(false);</script><script type="text/javascript" src="inline.b90c1b46c1aa2ed4d45a.bundle.js"></script><script type="text/javascript" src="polyfills.7c4efb87d4ba5dbbc58c.bundle.js"></script><script type="text/javascript" src="main.8827d68d604fe8c67b0e.bundle.js"></script></body></html>
