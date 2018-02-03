@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { YoutubeGetVideo } from './youtube.service';
 import { Http } from '@angular/http';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
@@ -14,6 +15,11 @@ export class SharedService {
     public channel: Array<any>;
     public playlist: Array<any>;
 
+    public fsVideosCol: AngularFirestoreCollection<any>;
+    public fsVideos: Observable<any[]>;
+    public fsNewId : string;
+
+
     _update: any;
 
     notify = {
@@ -24,6 +30,7 @@ export class SharedService {
     constructor(
         private youtube: YoutubeGetVideo,
         private http: Http,
+        private afs: AngularFirestore
     ) {}
 
     getFeed(): Observable<any> {
@@ -144,4 +151,27 @@ export class SharedService {
         }
         this.historyVideos.unshift(data);
     }
+
+    addToFirebase(data: any) {
+        var fsKarCount = this.afs.collection<any>('karaokeCount');
+        var fsKarCol = this.afs.collection<any>('karaoke');
+     
+        fsKarCount.doc('1').ref.get().then(function(doc) {
+            var newCount;
+            if (doc.exists) {
+                newCount = doc.data().count + 1;
+                fsKarCount.doc('1').set({'count': newCount});        
+            } else {
+                fsKarCount.doc('1').set({"count" : 1 });
+                newCount = 1;
+            }       
+            console.log("New kId: " + newCount);
+            data.seq = newCount;
+            fsKarCol.doc(String(newCount)).set(data);   
+        }).catch(function(error) {
+            console.log("Error getting karaokeCount:", error);
+        });   
+    }
+
+
 }

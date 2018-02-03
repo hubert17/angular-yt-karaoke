@@ -14,7 +14,7 @@ import { Http } from '@angular/http';
 
 export class SettingsComponent implements OnInit {
 
-    finished = false;
+    finished = false; // Change to Public due to Ng Build --Prod issue
     notify: any;
 
     _shared: any;

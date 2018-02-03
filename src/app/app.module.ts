@@ -13,7 +13,11 @@ import { SearchComponent } from './components/youtube-search.component';
 import { AboutComponent } from './components/youtube-about.component';
 import { HistoryComponent } from './components/youtube-history.component';
 
+import { AngularFireModule } from 'angularfire2';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
+
 import { YoutubePlayerModule } from 'ngx-youtube-player';
+import { environment } from '../environments/environment'
 
 @NgModule({
   imports: [
@@ -21,6 +25,8 @@ import { YoutubePlayerModule } from 'ngx-youtube-player';
     HttpModule,
     ReactiveFormsModule,
     YoutubePlayerModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFirestoreModule,      
     routes
   ],
   declarations: [

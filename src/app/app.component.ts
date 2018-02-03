@@ -3,6 +3,10 @@ import { YoutubeGetVideo } from './shared/youtube.service';
 import { SharedService } from './shared/lists.service';
 import { NwjsService } from './shared/nwjs.service';
 
+// import { Observable } from 'rxjs/Observable';
+// import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
+// import 'rxjs/add/operator/map';
+
 @Component({
   selector: 'app-yt',
   templateUrl: 'app.component.html'
@@ -20,6 +24,9 @@ export class AppComponent implements OnInit {
   feedVideos: Array<any>;
   playlistVideos: Array<any> = [];
   currentVideoObject: Array<any> = [];
+
+  // fsVideosCol: AngularFirestoreCollection<any>;
+  // fsVideos: Observable<any[]>;
 
   thumbnails = true;
   darkMode = true;
@@ -292,6 +299,7 @@ export class AppComponent implements OnInit {
 
         this._shared.playlist.push(listType);
         this._shared.updatePlaylist();
+        this._shared.addToFirebase(listType);
 
         this.findPlaylistItem();
         this._shared.triggerNotify('Added to playlist');
