@@ -4,6 +4,7 @@ import { Http } from '@angular/http';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
+import { Subscription } from 'rxjs/Subscription';
 
 @Injectable()
 export class SharedService {
@@ -17,7 +18,10 @@ export class SharedService {
 
     public fsVideosCol: AngularFirestoreCollection<any>;
     public fsVideos: Observable<any[]>;
+    public fsVideoDoc: AngularFirestoreDocument<any>;
+    public fsVideo: Observable<any>;
 
+    public subscription: Subscription;
 
     _update: any;
 
@@ -26,9 +30,6 @@ export class SharedService {
         message: 'No message'
     };
 
-    // Firestore
-    // karaokeCol: AngularFirestoreCollection<any>;
-    // karaokes: Observable<any[]>;
 
     constructor(
         private youtube: YoutubeGetVideo,
@@ -36,18 +37,19 @@ export class SharedService {
         private afs: AngularFirestore
     ) {}
 
-    ngOnInit() {
-        // this.karaokeCol = this.afs.collection('karaoke');
-        // this.karaokes = this.karaokeCol.valueChanges();
-    }
+    ngOnInit(){       
+        this.fsVideosCol = this.afs.collection('karaoke');
+        this.fsVideos = this.fsVideosCol.valueChanges(); 
+        this.getFromFirebase();
+    };
 
     getFromFirebase() {
-        this.fsVideosCol = this.afs.collection('karaoke');
-        this.fsVideos = this.fsVideosCol.valueChanges();
-        this.fsVideos.subscribe(data => {
+        this.fsVideos.subscribe(data => {            
             this.playlist = data;
-        })
-    }    
+        });
+        //console.log('==========List-PlaylistVideos: ' + JSON.stringify(self.playlist));
+    }
+
 
     getFeed(): Observable<any> {
         return new Observable(observer => {
@@ -131,12 +133,12 @@ export class SharedService {
     }
 
     getPlaylist() {
-        this.playlist = JSON.parse(localStorage.getItem('playlist'));
+        //this.playlist = JSON.parse(localStorage.getItem('playlist'));
     }
 
     updatePlaylist() {
-        localStorage.setItem('playlist', JSON.stringify(this.playlist));
-        this.setLocalVersion();
+        // localStorage.setItem('playlist', JSON.stringify(this.playlist));
+        // this.setLocalVersion();
     }
 
     setApiSettings() {
@@ -168,7 +170,8 @@ export class SharedService {
         this.historyVideos.unshift(data);
     }
 
-    addToFirebase(data: any) {
+    //this.fsVideosCol.doc('Current').set({"Seq" : data.seq });
+    addKaraokeFs(data: any) {
         var fsKarCount = this.afs.collection<any>('karaokeCount');
         var fsKarCol = this.afs.collection<any>('karaoke');
      
@@ -189,5 +192,28 @@ export class SharedService {
         });   
     }
 
+    deleteKaraokeFs(karaokeId) {
+        this.afs.doc('karaoke/' + karaokeId).delete();
+    }
+
+    getKaraokeFs(karaokeId) {
+        this.fsVideoDoc = this.afs.doc('karaoke/' + karaokeId);
+        this.fsVideo = this.fsVideoDoc.valueChanges();
+    }
+
+    clearKaraokeFs() {        
+        console.log('===clearKaraokeFs===');
+        this.fsVideosCol = this.afs.collection('karaoke');
+        this.fsVideos = this.fsVideosCol.valueChanges();
+        
+        this.subscription =  this.fsVideos.subscribe(data => {
+            data.forEach(karaoke => {
+                console.log(karaoke.seq);
+                this.afs.doc('karaoke/' + karaoke.seq).delete();
+            });       
+            this.subscription.unsubscribe();     
+        });         
+        
+    } 
 
 }

@@ -102,7 +102,11 @@ export class AppComponent implements OnInit {
       this.getFeedVideos();
 
       this.fsVideosCol = this.afs.collection('karaoke');
-      this.fsVideos = this.fsVideosCol.valueChanges();      
+      this.fsVideos = this.fsVideosCol.valueChanges();              
+      this.fsVideos.subscribe(data => {
+        this.playlistVideos = data;
+      });
+
   }
 
   // ---------------- Init player ----------------
@@ -144,8 +148,11 @@ export class AppComponent implements OnInit {
   }
 
   setCurrentVideoObject(data: any) {
+    console.log(JSON.stringify(data));
     this.currentVideoObject = [];
     this.currentVideoObject.push(data);
+    var fsKarCurrent = this.afs.collection<any>('Current');
+    fsKarCurrent.doc('1').set({"Seq" : 1 });
   }
 
   setDefaultPlayer() {
@@ -213,14 +220,14 @@ export class AppComponent implements OnInit {
   // ---------------- Playlist settings ----------------
 
   playlistInit() {
-      if (localStorage.getItem('playlist') === null || localStorage.getItem('playlist').length === 2) {
-        this.playlistVideos = JSON.parse(JSON.stringify(this.relatedVideos));
-        this._shared.playlist = JSON.parse(JSON.stringify(this.playlistVideos));
-        this._shared.updatePlaylist();
-      } else {
-        this._shared.getPlaylist();
-        this.playlistVideos = JSON.parse(JSON.stringify(this._shared.playlist));
-      }
+      // if (localStorage.getItem('playlist') === null || localStorage.getItem('playlist').length === 2) {
+      //   this.playlistVideos = JSON.parse(JSON.stringify(this.relatedVideos));
+      //   this._shared.playlist = JSON.parse(JSON.stringify(this.playlistVideos));
+      //   this._shared.updatePlaylist();
+      // } else {
+      //   this._shared.getPlaylist();
+      //   this.playlistVideos = JSON.parse(JSON.stringify(this._shared.playlist));
+      // }
       this.findPlaylistItem();
   }
 
@@ -258,18 +265,18 @@ export class AppComponent implements OnInit {
     }
   }
 
-  removePlaylistItem(i: number) {
+  removePlaylistItem(i: number, seq) {
+      //console.log('sequenceId: ' + seq);
+      this._shared.deleteKaraokeFs(seq);    
       this._shared.triggerNotify('Video removed');
       this.updateNotify();
       setTimeout(() => {
         if (i === this.currentPlaylistItem) {
           this.currentPlaylistItem = -1;
         }
-        this.playlistVideos.splice(i, 1);
-
-        this._shared.playlist.splice(i, 1);
-        this._shared.updatePlaylist();
-
+        // this.playlistVideos.splice(i, 1);
+        // this._shared.playlist.splice(i, 1);
+        // this._shared.updatePlaylist();
         this.findPlaylistItem();
       }, 200);
   }
@@ -299,28 +306,31 @@ export class AppComponent implements OnInit {
         playlistItem = this.playlistVideos.find(item => item.id === listType.id);
       }
 
-      if (typeof playlistItem === 'undefined') {
-        this.playlistVideos.push(listType);
+      this._shared.addKaraokeFs(listType);
+      this._shared.triggerNotify('Added to playlist');
+      // if (typeof playlistItem === 'undefined') {
+      //   this.playlistVideos.push(listType);
 
-        this._shared.playlist.push(listType);
-        this._shared.updatePlaylist();
-        this._shared.addToFirebase(listType);
+      //   this._shared.playlist.push(listType);
+      //   this._shared.updatePlaylist();
+      //   this._shared.addKaraokeFs(listType);
 
-        this.findPlaylistItem();
-        this._shared.triggerNotify('Added to playlist');
-        this.updateNotify();
-        this.scrollToBottom();
-      } else {
-        this._shared.triggerNotify('Video is already in playlist');
-        this.updateNotify();
-      }
+      //   this.findPlaylistItem();
+      //   this._shared.triggerNotify('Added to playlist');
+      //   this.updateNotify();
+      //   this.scrollToBottom();
+      // } else {
+      //   this._shared.triggerNotify('Video is already in playlist');
+      //   this.updateNotify();
+      // }
   }
 
   clearPlaylist() {
-      this.currentPlaylistItem = -1;
-      this.playlistVideos = [];
-      this._shared.playlist = [];
-      this._shared.updatePlaylist();
+    this._shared.clearKaraokeFs();
+    this.currentPlaylistItem = -1;
+    // this.playlistVideos = [];
+    // this._shared.playlist = [];
+    // this._shared.updatePlaylist();
   }
 
   exportPlaylist() {
@@ -383,7 +393,7 @@ export class AppComponent implements OnInit {
     if (i === this.currentPlaylistItem) {
       this.playPauseVideo();
     } else {
-      this.getVideo(this.playlistVideos[i]);
+        this.getVideo(this.playlistVideos[i]);
     }
   }
 
@@ -529,7 +539,7 @@ export class AppComponent implements OnInit {
   }
 
   confirmModal() {
-    this.removePlaylistItem(this.modalPlaylistItem);
+    //this.removePlaylistItem(this.modalPlaylistItem);
     this.modal = false;
   }
 

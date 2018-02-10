@@ -85,7 +85,7 @@
                   <div *ngIf="false" class="video-list-info">
                     Empty playlist
                   </div>
-                  <div *ngFor="let playlistVideo of fsVideos | async; let i = index" [ngClass]="currentPlaylistItem === i ? 'active' : ''" [attr.data-index]="i" class="video-item">
+                  <div *ngFor="let playlistVideo of playlistVideos; let i = index" [ngClass]="currentPlaylistItem === i ? 'active' : ''" [attr.data-index]="i" class="video-item">
                     <div class="video-item-info">
                       <div *ngIf="thumbnails" class="video-item-image" [ngStyle]="{'background-image': 'url(' + playlistVideo.snippet.thumbnails.default.url +')'}"></div>
                       <div class="video-item-content">
@@ -109,7 +109,7 @@
                       <button class="video-item-share" (click)="onCopyVideoItemLink(i, 3)">
                         <span class="fa fa-share-alt"></span>
                       </button>
-                      <button class="video-item-remove" (click)="showPlaylistModal(i)">
+                      <button class="video-item-remove" (click)="removePlaylistItem(i, playlistVideo.seq)">
                         <span class="fa fa-times"></span>
                       </button>
                     </div>
