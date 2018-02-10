@@ -3,9 +3,9 @@ import { YoutubeGetVideo } from './shared/youtube.service';
 import { SharedService } from './shared/lists.service';
 import { NwjsService } from './shared/nwjs.service';
 
-// import { Observable } from 'rxjs/Observable';
-// import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
-// import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs/Observable';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
+import 'rxjs/add/operator/map';
 
 @Component({
   selector: 'app-yt',
@@ -24,9 +24,6 @@ export class AppComponent implements OnInit {
   feedVideos: Array<any>;
   playlistVideos: Array<any> = [];
   currentVideoObject: Array<any> = [];
-
-  // fsVideosCol: AngularFirestoreCollection<any>;
-  // fsVideos: Observable<any[]>;
 
   thumbnails = true;
   darkMode = true;
@@ -77,10 +74,15 @@ export class AppComponent implements OnInit {
   loading = true;
   maximized = false;
 
+  // Firebase
+  fsVideosCol: AngularFirestoreCollection<any>;
+  fsVideos: Observable<any[]>;
+
   constructor(
     private youtube: YoutubeGetVideo,
     private shared: SharedService,
-    private nwjs: NwjsService
+    private nwjs: NwjsService,
+    private afs: AngularFirestore
   ) {
     this._shared = shared;
     this._nwjs = nwjs;
@@ -98,6 +100,9 @@ export class AppComponent implements OnInit {
       this.preventOldSettings();
       this.setSettings();
       this.getFeedVideos();
+
+      this.fsVideosCol = this.afs.collection('karaoke');
+      this.fsVideos = this.fsVideosCol.valueChanges();      
   }
 
   // ---------------- Init player ----------------

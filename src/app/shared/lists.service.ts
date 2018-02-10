@@ -17,7 +17,6 @@ export class SharedService {
 
     public fsVideosCol: AngularFirestoreCollection<any>;
     public fsVideos: Observable<any[]>;
-    public fsNewId : string;
 
 
     _update: any;
@@ -27,11 +26,28 @@ export class SharedService {
         message: 'No message'
     };
 
+    // Firestore
+    // karaokeCol: AngularFirestoreCollection<any>;
+    // karaokes: Observable<any[]>;
+
     constructor(
         private youtube: YoutubeGetVideo,
         private http: Http,
         private afs: AngularFirestore
     ) {}
+
+    ngOnInit() {
+        // this.karaokeCol = this.afs.collection('karaoke');
+        // this.karaokes = this.karaokeCol.valueChanges();
+    }
+
+    getFromFirebase() {
+        this.fsVideosCol = this.afs.collection('karaoke');
+        this.fsVideos = this.fsVideosCol.valueChanges();
+        this.fsVideos.subscribe(data => {
+            this.playlist = data;
+        })
+    }    
 
     getFeed(): Observable<any> {
         return new Observable(observer => {
