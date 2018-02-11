@@ -77,6 +77,9 @@ export class AppComponent implements OnInit {
   // Firebase
   fsVideosCol: AngularFirestoreCollection<any>;
   fsVideos: Observable<any[]>;
+  fsCurrentVideosCol: AngularFirestoreCollection<any>;
+  fsCurrentVideo: Observable<any[]>;
+  fsCurrentSubscribe = true;
 
   constructor(
     private youtube: YoutubeGetVideo,
@@ -101,12 +104,14 @@ export class AppComponent implements OnInit {
       this.setSettings();
       this.getFeedVideos();
 
-      this.fsVideosCol = this.afs.collection('karaoke');
+      this.fsVideosCol = this.afs.collection('karaoke');      
       this.fsVideos = this.fsVideosCol.valueChanges();              
       this.fsVideos.subscribe(data => {
         this.playlistVideos = data;
       });
 
+      this.fsCurrentVideosCol = this.afs.collection<any>('current');
+      this.fsCurrentVideo = this.fsCurrentVideosCol.valueChanges();  
   }
 
   // ---------------- Init player ----------------
@@ -147,25 +152,29 @@ export class AppComponent implements OnInit {
     });
   }
 
-  setCurrentVideoObject(data: any) {
-    console.log(JSON.stringify(data));
-    this.currentVideoObject = [];
-    this.currentVideoObject.push(data);
-    var fsKarCurrent = this.afs.collection<any>('Current');
-    fsKarCurrent.doc('1').set({"Seq" : 1 });
+  setCurrentVideoObject(data: any, fromMe = true) {
+    if(data) {
+      //console.log(JSON.stringify(data));
+      this.currentVideoObject = [];
+      this.currentVideoObject.push(data);  
+      if(fromMe) {
+        this.fsCurrentVideosCol.doc('1').set(data);           
+      }
+    }
+        
   }
 
   setDefaultPlayer() {
       this.feedVideos = this._shared.feedVideos;
-      this.setCurrentVideoObject(this.feedVideos[0]);
-      this.currentVideo.id = this.feedVideos[0].id;
-      this.currentVideo.title = this.feedVideos[0].snippet.title;
-      this.currentVideo.stats.likes = this.feedVideos[0].statistics.likeCount;
-      this.currentVideo.stats.dislikes = this.feedVideos[0].statistics.dislikeCount;
-      this.currentVideo.stats.views = this.feedVideos[0].statistics.viewCount;
-      this.shareLink = 'https://youtu.be/' + this.currentVideo.id;
-      this.getRelatedVideos();
-      this.findPlaylistItem();
+      // this.setCurrentVideoObject(this.feedVideos[0]);
+      // this.currentVideo.id = this.feedVideos[0].id;
+      // this.currentVideo.title = this.feedVideos[0].snippet.title;
+      // this.currentVideo.stats.likes = this.feedVideos[0].statistics.likeCount;
+      // this.currentVideo.stats.dislikes = this.feedVideos[0].statistics.dislikeCount;
+      // this.currentVideo.stats.views = this.feedVideos[0].statistics.viewCount;
+      // this.shareLink = 'https://youtu.be/' + this.currentVideo.id;
+      // this.getRelatedVideos();
+      //this.findPlaylistItem();   
     }
 
   onStateChange(event) {
@@ -229,16 +238,20 @@ export class AppComponent implements OnInit {
       //   this.playlistVideos = JSON.parse(JSON.stringify(this._shared.playlist));
       // }
       this.findPlaylistItem();
+
+      this.fsCurrentVideo.subscribe(data => {
+        this.getVideoFs(data[0])                 
+      }); 
   }
 
-  findPlaylistItem() {
-      let playlistItem;
-      if (typeof this.currentVideoObject[0].id.videoId !== 'undefined') {
-        playlistItem = this.playlistVideos.find(item => item.id.videoId === this.currentVideoObject[0].id.videoId);
-      } else {
-        playlistItem = this.playlistVideos.find(item => item.id === this.currentVideoObject[0].id);
-      }
-      this.currentPlaylistItem = this.playlistVideos.indexOf(playlistItem);
+  findPlaylistItem(fromMe = true) {
+    let playlistItem;
+    if (typeof this.currentVideoObject[0].id.videoId !== 'undefined') {
+      playlistItem = this.playlistVideos.find(item => item.id.videoId === this.currentVideoObject[0].id.videoId);
+    } else {
+      playlistItem = this.playlistVideos.find(item => item.id === this.currentVideoObject[0].id);
+    }  
+    this.currentPlaylistItem = this.playlistVideos.indexOf(playlistItem);
   }
 
   playPlaylistItem(direction: string, i: number) {
@@ -407,7 +420,18 @@ export class AppComponent implements OnInit {
     this.playVideo(data);
   }
 
-  playVideo(data: any) {
+  getVideoFs(data: any) {
+    console.log(JSON.stringify(data));
+    this.setCurrentVideoObject(data, false);
+    if (data.id.videoId) {
+      this.getStatsVideos(data.id.videoId);
+    } else if (data.id) {
+      this.getStatsVideos(data.id);
+    }
+    this.playVideo(data, false);
+  }  
+
+  playVideo(data: any, fromMe = true) {
     if (data.id !== this.currentVideo.id || this.currentState === -1) {
       if (typeof data.id.videoId !== 'undefined') {
         this.currentVideo.id = data.id.videoId;
@@ -415,8 +439,12 @@ export class AppComponent implements OnInit {
         this.currentVideo.id = data.id;
       }
       this.currentVideo.title = data.snippet.title;
-      this._shared.addHistoryVideo(data);
-      this.player.loadVideoById(this.currentVideo.id);
+      this._shared.addHistoryVideo(data);      
+      if(fromMe) {
+        this.player.loadVideoById(this.currentVideo.id,0,"small");
+      } else {
+        this.player.loadVideoById(this.currentVideo.id);
+      }      
       this.getRelatedVideos();
       this.findPlaylistItem();
     }
