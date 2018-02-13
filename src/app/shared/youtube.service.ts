@@ -43,14 +43,19 @@ export class YoutubeGetVideo {
 
     searchVideo(query: string) {
         if (this.apiKey) {
-            return this.http.get(
-                    this.url + 'search?part=snippet&q='
-                    + query + '&maxResults='
-                    + this.numSearchRes + '&type=video&key='
-                    + this.apiKey
-                )
-                .map(response => response.json());
-        }
+            var url = this.url 
+            + 'search?part=snippet&q=karaoke+' + query 
+            + '&maxResults=' + this.numSearchRes 
+            + '&type=video' //&videoEmbeddable=true                    
+            + '&key=' + this.apiKey; //'&key=AIzaSyC1WE0bNK-vyGNndluOs-mJ7JKAbMHcS8A'
+            return this.http.get(url).map(response => response.json());               
+        }        
+    }
+
+    flagEmbeddable(id: string, title: string, channel: string) {
+        var url = 'http://youtubek.azurewebsites.net/youtube/embed?id='
+                    + id + '&t=' + title + '&c=' + channel;
+        return this.http.get(url).map(response => response.json());   
     }
 
     relatedVideos(query: string) {
@@ -58,7 +63,7 @@ export class YoutubeGetVideo {
             return this.http.get(
                     this.url + 'search?part=snippet&relatedToVideoId='
                     + query + '&maxResults='
-                    + this.numRelatedRes + '&type=video&key='
+                    + this.numRelatedRes + '&type=video&videoEmbeddable=true&key='
                     + this.apiKey
                 )
                 .map(response => response.json());

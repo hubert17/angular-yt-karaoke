@@ -6,9 +6,10 @@
   "apps": [
     {
       "root": "src",
-      "outDir": "dist",
+      "outDir": "c:/Users/DRIVE_D/My Documents/_GitHub/angular2-yt-player-master/AngularAspNetCoreSignalR/wwwroot", 
       "assets": [
         "assets",
+        "home/index.html",
         "favicon.ico"
       ],
       "index": "index.html",

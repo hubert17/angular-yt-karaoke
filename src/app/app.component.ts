@@ -224,7 +224,7 @@ export class AppComponent implements OnInit {
         this.videoCurFull = this.timeFormat(this.videoCurRange);
         this.videoRangePercent = (this.videoCurRange / this.videoMaxRange) * 100;        
         var videoRangePercent = Math.floor(this.videoRangePercent);
-        console.log('Now playing at ' +  videoRangePercent);
+        //console.log('Now playing at ' +  videoRangePercent);
         var msgCurr = this.playlistVideos[this.currentPlaylistItem].snippet.title;        
         if (this.currentPlaylistItem < this.playlistVideos.length - 1) {
           var msgNext = this.playlistVideos[this.currentPlaylistItem+1].snippet.title;
@@ -268,7 +268,7 @@ export class AppComponent implements OnInit {
       }); 
 
       this.fsVideosNext.subscribe(data => {     
-        console.log(JSON.stringify(data));
+        //console.log(JSON.stringify(data));
         this.titleService.setTitle(data.msgKar);   
         setTimeout(() => {
           this.titleService.setTitle(this.AppTitle); 
@@ -285,7 +285,7 @@ export class AppComponent implements OnInit {
       playlistItem = this.playlistVideos.find(item => item.id === this.currentVideoObject[0].id);
     }  
     this.currentPlaylistItem = this.playlistVideos.indexOf(playlistItem);
-    console.log("currentPlayItem=" + this.currentPlaylistItem);
+    //console.log("currentPlayItem=" + this.currentPlaylistItem);
   }
 
   playPlaylistItem(direction: string, i: number) {
@@ -456,7 +456,7 @@ export class AppComponent implements OnInit {
   }
 
   getVideoFs(data: any) {
-    console.log(JSON.stringify(data));
+    //console.log(JSON.stringify(data));
     this.setCurrentVideoObject(data, false);
     if (data.id.videoId) {
       this.getStatsVideos(data.id.videoId);
@@ -488,13 +488,37 @@ export class AppComponent implements OnInit {
   getStatsVideos(query: string) {
     this.youtube.statsVideos(query).subscribe(
         result => {
-          this.currentVideo.id = result.items[0].id;
-          this.currentVideo.title = result.items[0].snippet.title;
-          this.currentVideo.channelTitle = result.items[0].snippet.channelTitle;
-          this.currentVideo.stats.likes = result.items[0].statistics.likeCount;
-          this.currentVideo.stats.dislikes = result.items[0].statistics.dislikeCount;
-          this.currentVideo.stats.views = result.items[0].statistics.viewCount;
-          this.shareLink = 'https://youtu.be/' + this.currentVideo.id;
+          if(result.items[0].status.embeddable) {
+            this.currentVideo.id = result.items[0].id;
+            this.currentVideo.title = result.items[0].snippet.title;
+            this.currentVideo.channelTitle = result.items[0].snippet.channelTitle;
+            this.currentVideo.stats.likes = result.items[0].statistics.likeCount;
+            this.currentVideo.stats.dislikes = result.items[0].statistics.dislikeCount;
+            this.currentVideo.stats.views = result.items[0].statistics.viewCount;
+            this.shareLink = 'https://youtu.be/' + this.currentVideo.id;  
+          } else {
+            console.log('Video is unembeddable.')
+            this._shared.triggerNotify('You cannot play this karaoke title at this moment. Try search for another similar title or queue this again in an hour.', 5000);                   
+            
+            this.youtube.flagEmbeddable(result.items[0].id, result.items[0].snippet.title, result.items[0].snippet.channelTitle).subscribe(
+              result => {
+                setTimeout( () => {
+                  this._shared.triggerNotify(JSON.stringify(result), 3000);                   
+                }, 6000);
+              },
+              error => {
+                console.log('error on unembeddable videos');
+              }
+            );
+
+            var i = this.playlistVideos.indexOf(this.currentVideoObject[0]);
+            setTimeout( () => {
+              if(i < this.playlistVideos.length) {
+                this.playPlaylistItem('next', i + 2);
+              }             
+            }, 200);            
+          
+          }
         },
         error => {
           console.log('error on related videos');

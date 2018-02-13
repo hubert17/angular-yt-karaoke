@@ -151,10 +151,10 @@ export class SharedService {
         }
     }
 
-    triggerNotify(message: string) {
+    triggerNotify(message: string, timeout = 1000) {
         this.notify.enabled = true;
         this.notify.message = message;
-        setTimeout(() => this.notify.enabled = false, 1000);
+        setTimeout(() => this.notify.enabled = false, timeout);
     }
 
     addHistoryVideo(data: any) {
