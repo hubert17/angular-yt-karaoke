@@ -6,7 +6,7 @@
   "apps": [
     {
       "root": "src",
-      "outDir": "c:/Users/DRIVE_D/My Documents/_GitHub/angular2-yt-player-master/AngularAspNetCoreSignalR/wwwroot", 
+      "outDir": "c:/Users/DRIVE_D/My Documents/_GitHub/_YTKaraokeGabs/YoutubeK/YoutubeK/wwwroot/app", 
       "assets": [
         "assets",
         "home/index.html",
