@@ -31,6 +31,7 @@ export class YoutubeGetVideo {
 
     getChannel(query: string) {
         if (this.apiKey) {
+            console.log("Channel: " + query);
             return this.http.get(
                     this.url + 'channels?'
                     + this.channelDetails + '&id='
@@ -41,20 +42,29 @@ export class YoutubeGetVideo {
         }
     }
 
-    searchVideo(query: string) {
+    searchVideo(query: string, embeddable = false) {
+        var paramEmbeddable = "";
+        if(embeddable) {
+            paramEmbeddable = "&videoEmbeddable=true";
+            if(query) {
+                this.numSearchRes = "1";
+            } else {
+                this.numSearchRes = "20";
+            }            
+        }
         if (this.apiKey) {
             var url = this.url 
             + 'search?part=snippet&q=karaoke+' + query 
             + '&maxResults=' + this.numSearchRes 
-            + '&type=video' //&videoEmbeddable=true                    
+            + '&type=video' + paramEmbeddable                  
             + '&key=' + this.apiKey; //'&key=AIzaSyC1WE0bNK-vyGNndluOs-mJ7JKAbMHcS8A'
             return this.http.get(url).map(response => response.json());               
         }        
     }
 
-    flagEmbeddable(id: string, title: string, channel: string) {
-        var url = 'http://youtubek.azurewebsites.net/youtube/embed?id='
-                    + id + '&t=' + title + '&c=' + channel;
+    flagEmbeddable(id: string, title: string, channel: string, status = "") {
+        var url = 'http://youtubek.azurewebsites.net/fixembed?id='
+                    + id + '&t=' + title + '&c=' + channel + '&s=' + status;
         return this.http.get(url).map(response => response.json());   
     }
 
@@ -83,14 +93,15 @@ export class YoutubeGetVideo {
     }
 
     feedVideos() {
+        //key={your_key_here}&channelId={channel_id_here}&part=snippet,id&order=date&maxResults=20
+        var channelId = (new URL(location.href)).searchParams.get("channelId");
         if (this.apiKey) {
-            return this.http.get(
-                    this.url + 'videos?'
-                    + this.videoDetails + this.feedDetails + '&regionCode='
-                    + this.regionCode + '&maxResults=25&key='
-                    + this.apiKey
-                )
-                .map(response => response.json());
-        }
+            var url = this.url 
+            + 'search?part=snippet&channelId=' + channelId
+            + '&maxResults=25' 
+            + '&type=video&videoEmbeddable=true'                  
+            + '&key=' + this.apiKey; //'&key=AIzaSyC1WE0bNK-vyGNndluOs-mJ7JKAbMHcS8A'
+            return this.http.get(url).map(response => response.json());               
+        }   
     }
 }

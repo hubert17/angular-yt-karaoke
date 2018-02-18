@@ -53,8 +53,21 @@ export class SearchComponent implements OnInit {
     this._app = app;
   }
 
+  isDesktop=true;
+  checkMobile() {
+    var isWebkit = 'WebkitAppearance' in document.documentElement.style
+    var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if (isWebkit) {
+        if (isMobile) {
+          console.log('IsMobile');
+          return this.isDesktop=false;
+        }
+    }
+    return this.isDesktop=true;
+  }
+
   ngOnInit() {
-    console.log('search');
+    this.checkMobile();
     this.setSettings();
     this.searchFunction();
     this.getFeedVideos();
@@ -92,7 +105,8 @@ export class SearchComponent implements OnInit {
   getFeedVideos() {
       this._shared.getFeed().subscribe(data => {
           this.feedVideos = data;
-          this.getChannelTrending(this.feedVideos[0].snippet.channelId);
+          var channelId = (new URL(location.href)).searchParams.get("channelId");
+          this.getChannelTrending(channelId);
       });
   }
 
@@ -103,18 +117,8 @@ export class SearchComponent implements OnInit {
           this.trendingFirst.video.id = this.feedVideos[0].id;
           this.trendingFirst.video.title = this.feedVideos[0].snippet.title;
           this.trendingFirst.video.img = this.feedVideos[0].snippet.thumbnails.medium.url;
-          this.trendingFirst.video.stats.likes = this.feedVideos[0].statistics.likeCount;
-          this.trendingFirst.video.stats.dislikes = this.feedVideos[0].statistics.dislikeCount;
-          this.trendingFirst.video.stats.views = this.feedVideos[0].statistics.viewCount;
-          this.trendingFirst.bannerURL = this.channel.items[0].brandingSettings.image.bannerTabletHdImageUrl;
+          this.trendingFirst.bannerURL = this.feedVideos[0].snippet.thumbnails.high.url;
           this.trendingFirst.video.channelTitle = this.channel.items[0].snippet.title;
-          if (!this.channel.items[0].statistics.hiddenSubscriberCount) {
-            this.trendingFirst.stats.subscribers = this.channel.items[0].statistics.subscriberCount;
-          } else {
-            this.trendingFirst.stats.subscribers = '0';
-          }
-          this.trendingFirst.stats.videoCount = this.channel.items[0].statistics.videoCount;
-          this.trendingFirst.stats.views = this.channel.items[0].statistics.viewCount;
       });
   }
 

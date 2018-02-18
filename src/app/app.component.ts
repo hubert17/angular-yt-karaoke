@@ -4,10 +4,12 @@ import { YoutubeGetVideo } from './shared/youtube.service';
 import { SharedService } from './shared/lists.service';
 import { NwjsService } from './shared/nwjs.service';
 
-import { Observable } from 'rxjs/Observable';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
-import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/take';
 
 
 @Component({
@@ -20,6 +22,8 @@ export class AppComponent implements OnInit {
   @ViewChild('videoItemIDvalue') private videoItemIDvalue: ElementRef;
 
   AppTitle = "YoutubeK by Gabs";
+  roomId= '';
+
   notify: any;
   nw: any;
   videoRangePercent = 0;
@@ -84,13 +88,28 @@ export class AppComponent implements OnInit {
   fsVideoStats: AngularFirestoreCollection<any>;
   fsVideosCurrent: Observable<any>;
   fsVideosNext: Observable<any>;
+  fsVideosPlaybackState: Observable<any>;
+  subscription : Subscription;
+
+  isDesktop=true;
+  checkMobile() {
+    var isWebkit = 'WebkitAppearance' in document.documentElement.style
+    var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if (isWebkit) {
+        if (isMobile) {
+          console.log('IsMobile');
+          return this.isDesktop=false;
+        }
+    }
+    return this.isDesktop=true;
+  }
 
   constructor(
     private youtube: YoutubeGetVideo,
     private shared: SharedService,
     private nwjs: NwjsService,
     private afs: AngularFirestore,
-    private titleService: Title 
+    private titleService: Title
   ) {
     this._shared = shared;
     this._nwjs = nwjs;
@@ -108,17 +127,28 @@ export class AppComponent implements OnInit {
       this.preventOldSettings();
       this.setSettings();
       this.getFeedVideos();
+      this.getFsPlaylist();
 
-      this.fsVideosCol = this.afs.collection('karaoke');      
-      this.fsVideos = this.fsVideosCol.valueChanges();              
-      this.fsVideos.subscribe(data => {
-        this.playlistVideos = data;
-      });
-
-      this.fsVideoStats = this.afs.collection<any>('karaokeStats');
-      this.fsVideosCurrent = this.afs.doc('karaokeStats/current').valueChanges();
-      this.fsVideosNext = this.afs.doc('karaokeStats/next').valueChanges();
   }
+
+  getFsPlaylist() {
+    this.roomId = (new URL(location.href)).searchParams.get("roomId");
+    this.fsVideosCol = this.afs.collection('karaoke', ref => {
+      console.log("inside this.roomId: " + this.roomId);         
+      return ref.where('roomId', '==', this.roomId);
+    });      
+    this.fsVideos = this.fsVideosCol.valueChanges();              
+    this.fsVideos.subscribe(data => {
+      //console.log(JSON.stringify(data[0]));
+      this.playlistVideos = data;
+    });
+
+    this.fsVideoStats = this.afs.collection<any>('karaokeStats');
+    this.fsVideosCurrent = this.afs.doc('karaokeStats/curr-' + this.roomId).valueChanges();
+    this.fsVideosNext = this.afs.doc('karaokeStats/next-' + this.roomId).valueChanges(); 
+    this.fsVideosPlaybackState = this.afs.doc('karaokeStats/playback-' + this.roomId).valueChanges(); 
+  }
+
 
   // ---------------- Init player ----------------
 
@@ -164,24 +194,24 @@ export class AppComponent implements OnInit {
       this.currentVideoObject = [];
       this.currentVideoObject.push(data);  
       if(fromMe) {
-        this.fsVideoStats.doc('current').set(data);           
+        this.fsVideoStats.doc('curr-' + this.roomId).set(data);           
       }
     }
         
   }
 
   setDefaultPlayer() {
-      this.feedVideos = this._shared.feedVideos;
-      // this.setCurrentVideoObject(this.feedVideos[0]);
-      // this.currentVideo.id = this.feedVideos[0].id;
-      // this.currentVideo.title = this.feedVideos[0].snippet.title;
-      // this.currentVideo.stats.likes = this.feedVideos[0].statistics.likeCount;
-      // this.currentVideo.stats.dislikes = this.feedVideos[0].statistics.dislikeCount;
-      // this.currentVideo.stats.views = this.feedVideos[0].statistics.viewCount;
-      // this.shareLink = 'https://youtu.be/' + this.currentVideo.id;
-      // this.getRelatedVideos();
-      //this.findPlaylistItem();   
-    }
+    // this.feedVideos = this._shared.feedVideos;
+    // this.setCurrentVideoObject(this.feedVideos[0]);
+    // this.currentVideo.id = this.feedVideos[0].id;
+    // this.currentVideo.title = this.feedVideos[0].snippet.title;
+    // this.currentVideo.stats.likes = this.feedVideos[0].statistics.likeCount;
+    // this.currentVideo.stats.dislikes = this.feedVideos[0].statistics.dislikeCount;
+    // this.currentVideo.stats.views = this.feedVideos[0].statistics.viewCount;
+    // this.shareLink = 'https://youtu.be/' + this.currentVideo.id;
+    // this.getRelatedVideos();
+    // this.findPlaylistItem();
+  }
 
   onStateChange(event) {
     this.currentState = event.data;
@@ -225,28 +255,30 @@ export class AppComponent implements OnInit {
         this.videoRangePercent = (this.videoCurRange / this.videoMaxRange) * 100;        
         var videoRangePercent = Math.floor(this.videoRangePercent);
         //console.log('Now playing at ' +  videoRangePercent);
-        var msgCurr = this.playlistVideos[this.currentPlaylistItem].snippet.title;        
+        var currTitle = this.playlistVideos[this.currentPlaylistItem].snippet.title;
+        var msgCurr = currTitle ? currTitle : this.AppTitle; 
+        var nx = 'next-' + this.roomId;
         if (this.currentPlaylistItem < this.playlistVideos.length - 1) {
           var msgNext = this.playlistVideos[this.currentPlaylistItem+1].snippet.title;
           if(this.videoRangePercent < 1) {
-            this.fsVideoStats.doc('next').set({"msgKar": "Loading karaoke..."});
+            this.fsVideoStats.doc(nx).set({"msgKar": "Loading karaoke..."});
           } else if (videoRangePercent == 2) {
-            this.fsVideoStats.doc('next').set({"msgKar": msgCurr});
+            this.fsVideoStats.doc(nx).set({"msgKar": msgCurr});
           } else if (videoRangePercent == 5) {
-            this.fsVideoStats.doc('next').set({"msgKar": "Have fun singing!"});
+            this.fsVideoStats.doc(nx).set({"msgKar": "Have fun singing!"});
           } else if (videoRangePercent == 50) {
-            this.fsVideoStats.doc('next').set({"msgKar": "Are you having fun?!?"});
+            this.fsVideoStats.doc(nx).set({"msgKar": "Are you having fun?!?"});
           } else if (videoRangePercent == 52) {
-            this.fsVideoStats.doc('next').set({"msgKar": "Coming your way..."});
+            this.fsVideoStats.doc(nx).set({"msgKar": "Coming your way..."});
           } else if (videoRangePercent == 53) {
-            this.fsVideoStats.doc('next').set({"msgKar": msgNext});
+            this.fsVideoStats.doc(nx).set({"msgKar": msgNext});
           } else if (videoRangePercent == 90) {
-            this.fsVideoStats.doc('next').set({"msgKar": "Up Next..."});
+            this.fsVideoStats.doc(nx).set({"msgKar": "Up Next..."});
           } else if (videoRangePercent == 91) {
-            this.fsVideoStats.doc('next').set({"msgKar": msgNext});
+            this.fsVideoStats.doc(nx).set({"msgKar": msgNext});
           } 
         } else {
-          this.fsVideoStats.doc('next').set({"msgKar": "Last song in the playlist."});    
+          this.fsVideoStats.doc(nx).set({"msgKar": "Last song in the playlist."});    
         }   
       }, 1000);
     } else {
@@ -261,20 +293,33 @@ export class AppComponent implements OnInit {
   // ---------------- Playlist settings ----------------
 
   playlistInit() {
+      console.log('playlistInit RoomId: ' + this.roomId);
       this.findPlaylistItem();
 
       this.fsVideosCurrent.subscribe(data => {
         this.getVideoFs(data)                 
       }); 
 
+      this.fsVideosPlaybackState.subscribe(data => {   
+        console.log('From remote:' + data.state);  
+        if (data.state === "pause") {
+          console.log("Remote State: PAUSE video");
+          this.player.pauseVideo();
+        } else if (data.state === "play"){
+          console.log("Remote State: PLAY video");
+          this.player.playVideo();
+        }                                           
+      });          
+
       this.fsVideosNext.subscribe(data => {     
         //console.log(JSON.stringify(data));
-        this.titleService.setTitle(data.msgKar);   
+        if(data) {
+          this.titleService.setTitle(data.msgKar);  
+        }         
         setTimeout(() => {
           this.titleService.setTitle(this.AppTitle); 
-        }, 30000);   
-                                
-      });       
+        }, 30000);                                   
+      });          
   }
 
   findPlaylistItem(fromMe = true) {
@@ -293,7 +338,7 @@ export class AppComponent implements OnInit {
       if (i < this.playlistVideos.length) {
         i += 1;
       }
-      if (i === this.playlistVideos.length) {
+      if (i >= this.playlistVideos.length) {
         i = 0;
       }
     }
@@ -446,6 +491,7 @@ export class AppComponent implements OnInit {
   }
 
   getVideo(data: any) {
+    console.log("GETTING VIDEO:" + JSON.stringify(data.snippet.title));
     this.setCurrentVideoObject(data);
     if (data.id.videoId) {
       this.getStatsVideos(data.id.videoId);
@@ -456,7 +502,7 @@ export class AppComponent implements OnInit {
   }
 
   getVideoFs(data: any) {
-    //console.log(JSON.stringify(data));
+    console.log("GETTING VIDEO:" + JSON.stringify(data.snippet.title));
     this.setCurrentVideoObject(data, false);
     if (data.id.videoId) {
       this.getStatsVideos(data.id.videoId);
@@ -476,7 +522,7 @@ export class AppComponent implements OnInit {
       this.currentVideo.title = data.snippet.title;
       this._shared.addHistoryVideo(data);      
       if(fromMe) {
-        this.player.loadVideoById(this.currentVideo.id,);
+        this.player.loadVideoById(this.currentVideo.id);
       } else {
         this.player.loadVideoById(this.currentVideo.id);
       }      
@@ -486,21 +532,27 @@ export class AppComponent implements OnInit {
   }
 
   getStatsVideos(query: string) {
-    this.youtube.statsVideos(query).subscribe(
+     this.youtube.statsVideos(query).subscribe(
         result => {
-          if(result.items[0].status.embeddable) {
-            this.currentVideo.id = result.items[0].id;
-            this.currentVideo.title = result.items[0].snippet.title;
-            this.currentVideo.channelTitle = result.items[0].snippet.channelTitle;
-            this.currentVideo.stats.likes = result.items[0].statistics.likeCount;
-            this.currentVideo.stats.dislikes = result.items[0].statistics.dislikeCount;
-            this.currentVideo.stats.views = result.items[0].statistics.viewCount;
-            this.shareLink = 'https://youtu.be/' + this.currentVideo.id;  
-          } else {
-            console.log('Video is unembeddable.')
-            this._shared.triggerNotify('You cannot play this karaoke title at this moment. Try search for another similar title or queue this again in an hour.', 5000);                   
-            
-            this.youtube.flagEmbeddable(result.items[0].id, result.items[0].snippet.title, result.items[0].snippet.channelTitle).subscribe(
+          // var i = this.playlistVideos.indexOf(this.currentVideoObject[0]);          
+          this.currentVideo.id = result.items[0].id;
+          this.currentVideo.title = result.items[0].snippet.title;
+          this.currentVideo.channelTitle = result.items[0].snippet.channelTitle;
+          this.currentVideo.stats.likes = result.items[0].statistics.likeCount;
+          this.currentVideo.stats.dislikes = result.items[0].statistics.dislikeCount;
+          this.currentVideo.stats.views = result.items[0].statistics.viewCount;
+          this.shareLink = 'https://youtu.be/' + this.currentVideo.id;  
+          console.log("CURRENT:" + JSON.stringify(result.items[0].snippet.title));
+
+          if(!result.items[0].status.embeddable || !result.items[0].status.publicStatsViewable) {            
+            this._shared.triggerNotify('This karaoke title cannot be played outside Youtube.com. No worries! We replace it with an embeddable one.', 5000);                                                       
+            this.subscription = this.youtube.searchVideo(result.items[0].snippet.title, true).subscribe(result => {
+              this.player.loadVideoById(result.items[0].id);
+              this.subscription.unsubscribe();
+            });
+            this.youtube.flagEmbeddable(result.items[0].id, 
+              result.items[0].snippet.title, 
+              result.items[0].snippet.channelTitle).subscribe(
               result => {
                 setTimeout( () => {
                   this._shared.triggerNotify(JSON.stringify(result), 3000);                   
@@ -510,14 +562,6 @@ export class AppComponent implements OnInit {
                 console.log('error on unembeddable videos');
               }
             );
-
-            var i = this.playlistVideos.indexOf(this.currentVideoObject[0]);
-            setTimeout( () => {
-              if(i < this.playlistVideos.length) {
-                this.playPlaylistItem('next', i + 2);
-              }             
-            }, 200);            
-          
           }
         },
         error => {
@@ -544,11 +588,17 @@ export class AppComponent implements OnInit {
   // ---------------- Player controls ----------------
 
   playPauseVideo() {
+    var pState = "";
     if (this.currentState === 1) {
       this.player.pauseVideo();
+      pState = "pause";
+      console.log("Locals State: PAUSE video");  
     } else {
       this.player.playVideo();
+      pState = "play";
+      console.log("Locals State: PLAY video");  
     }
+    this.fsVideoStats.doc('playback-' + this.roomId).set({"state": pState});      
   }
 
   RangeNouseDown() {

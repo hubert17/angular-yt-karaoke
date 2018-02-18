@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { YoutubeGetVideo } from './youtube.service';
 import { Http } from '@angular/http';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
@@ -23,6 +24,8 @@ export class SharedService {
 
     public subscription: Subscription;
 
+    public roomId: string
+
     _update: any;
 
     notify = {
@@ -34,22 +37,13 @@ export class SharedService {
     constructor(
         private youtube: YoutubeGetVideo,
         private http: Http,
-        private afs: AngularFirestore
+        private afs: AngularFirestore,
+        private route: ActivatedRoute
     ) {}
 
     ngOnInit(){       
-        this.fsVideosCol = this.afs.collection('karaoke');
-        this.fsVideos = this.fsVideosCol.valueChanges(); 
-        this.getFromFirebase();
+        
     };
-
-    getFromFirebase() {
-        this.fsVideos.subscribe(data => {            
-            this.playlist = data;
-        });
-        //console.log('==========List-PlaylistVideos: ' + JSON.stringify(self.playlist));
-    }
-
 
     getFeed(): Observable<any> {
         return new Observable(observer => {
@@ -63,7 +57,10 @@ export class SharedService {
                 this.youtube.feedVideos().subscribe(
                     result => {
                         this.feedVideos = result.items;
-                        this.youtube.getChannel(result.items[0].snippet.channelId).subscribe(
+                        // FROM QUERY STRING GABS
+                        var channelId = (new URL(location.href)).searchParams.get("channelId");
+                        //this.youtube.getChannel(result.items[0].snippet.channelId).subscribe(
+                        this.youtube.getChannel(channelId).subscribe(
                         resultChannel => {
                             this.channel = resultChannel;
                             observer.next(this.feedVideos);
@@ -171,9 +168,15 @@ export class SharedService {
     }
 
     //this.fsVideosCol.doc('Current').set({"Seq" : data.seq });
-    addKaraokeFs(data: any) {
+    addKaraokeFs(data: any) {        
+        let roomId;
         var fsKarCount = this.afs.collection<any>('karaokeCount');
         var fsKarCol = this.afs.collection<any>('karaoke');
+
+        this.getRoom().subscribe(data => {
+            roomId = data;
+            console.log('roomId: ' + roomId);
+        })
      
         fsKarCount.doc('1').ref.get().then(function(doc) {
             var newCount;
@@ -184,8 +187,9 @@ export class SharedService {
                 fsKarCount.doc('1').set({"count" : 1 });
                 newCount = 1;
             }       
-            console.log("New kId: " + newCount);
+            console.log("New kId: " + newCount);           
             data.seq = newCount;
+            data.roomId = roomId;
             fsKarCol.doc(String(newCount)).set(data);   
         }).catch(function(error) {
             console.log("Error getting karaokeCount:", error);
@@ -212,8 +216,13 @@ export class SharedService {
                 this.afs.doc('karaoke/' + karaoke.seq).delete();
             });       
             this.subscription.unsubscribe();     
-        });         
-        
-    } 
+        });                
+    }
+
+    getRoom() {
+        return this.route.queryParams.map((params: Params) => {    
+            return params.roomId;
+        });
+    }
 
 }
