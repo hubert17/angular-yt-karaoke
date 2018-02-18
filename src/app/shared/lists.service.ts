@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
 import { YoutubeGetVideo } from './youtube.service';
 import { Http } from '@angular/http';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import { Subscription } from 'rxjs/Subscription';
+
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 @Injectable()
 export class SharedService {
@@ -24,7 +25,8 @@ export class SharedService {
 
     public subscription: Subscription;
 
-    public roomId: string
+    public roomId = 'default';
+    //public channelId = 'default';
 
     _update: any;
 
@@ -42,7 +44,6 @@ export class SharedService {
     ) {}
 
     ngOnInit(){       
-        
     };
 
     getFeed(): Observable<any> {
@@ -57,10 +58,7 @@ export class SharedService {
                 this.youtube.feedVideos().subscribe(
                     result => {
                         this.feedVideos = result.items;
-                        // FROM QUERY STRING GABS
-                        var channelId = (new URL(location.href)).searchParams.get("channelId");
-                        //this.youtube.getChannel(result.items[0].snippet.channelId).subscribe(
-                        this.youtube.getChannel(channelId).subscribe(
+                        this.youtube.getChannel(result.items[0].snippet.channelId).subscribe(
                         resultChannel => {
                             this.channel = resultChannel;
                             observer.next(this.feedVideos);
@@ -175,7 +173,6 @@ export class SharedService {
 
         this.getRoom().subscribe(data => {
             roomId = data;
-            console.log('roomId: ' + roomId);
         })
      
         fsKarCount.doc('1').ref.get().then(function(doc) {
@@ -187,7 +184,7 @@ export class SharedService {
                 fsKarCount.doc('1').set({"count" : 1 });
                 newCount = 1;
             }       
-            console.log("New kId: " + newCount);           
+            //console.log("New kId: " + newCount);           
             data.seq = newCount;
             data.roomId = roomId;
             fsKarCol.doc(String(newCount)).set(data);   

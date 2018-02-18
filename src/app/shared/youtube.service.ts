@@ -31,28 +31,28 @@ export class YoutubeGetVideo {
 
     getChannel(query: string) {
         if (this.apiKey) {
-            console.log("Channel: " + query);
             return this.http.get(
                     this.url + 'channels?'
                     + this.channelDetails + '&id='
-                    + query + '&key='
+                    +  query + '&key='
                     + this.apiKey
                 )
                 .map(response => response.json());
         }
     }
 
+
     searchVideo(query: string, embeddable = false) {
-        var paramEmbeddable = "";
-        if(embeddable) {
-            paramEmbeddable = "&videoEmbeddable=true";
-            if(query) {
-                this.numSearchRes = "1";
-            } else {
-                this.numSearchRes = "20";
-            }            
-        }
         if (this.apiKey) {
+            var paramEmbeddable = "";
+            if(embeddable) {
+                paramEmbeddable = "&videoEmbeddable=true";
+                if(query) {
+                    this.numSearchRes = "2";
+                } else {
+                    this.numSearchRes = "15";
+                }            
+            }
             var url = this.url 
             + 'search?part=snippet&q=karaoke+' + query 
             + '&maxResults=' + this.numSearchRes 
@@ -72,8 +72,8 @@ export class YoutubeGetVideo {
         if (this.apiKey) {
             return this.http.get(
                     this.url + 'search?part=snippet&relatedToVideoId='
-                    + query + '&maxResults='
-                    + this.numRelatedRes + '&type=video&videoEmbeddable=true&key='
+                    + query + '&maxResults=10'
+                    + '&type=video&videoEmbeddable=true&key='
                     + this.apiKey
                 )
                 .map(response => response.json());
@@ -93,15 +93,26 @@ export class YoutubeGetVideo {
     }
 
     feedVideos() {
-        //key={your_key_here}&channelId={channel_id_here}&part=snippet,id&order=date&maxResults=20
-        var channelId = (new URL(location.href)).searchParams.get("channelId");
         if (this.apiKey) {
-            var url = this.url 
-            + 'search?part=snippet&channelId=' + channelId
-            + '&maxResults=25' 
-            + '&type=video&videoEmbeddable=true'                  
-            + '&key=' + this.apiKey; //'&key=AIzaSyC1WE0bNK-vyGNndluOs-mJ7JKAbMHcS8A'
-            return this.http.get(url).map(response => response.json());               
+             var channelId = (new URL(location.href)).searchParams.get("channelId");
+             //var channelId = "UCaPwSXblS8F0owlKHGc6huw";
+             if(channelId) {
+                 var url = this.url 
+                 + 'search?part=snippet&channelId=' + channelId
+                 + '&maxResults=25' 
+                 + '&type=video&videoEmbeddable=true'                  
+                 + '&key=' + this.apiKey;
+                 return this.http.get(url).map(response => response.json()); 
+             } else {
+                 var url = this.url 
+                 + 'search?part=snippet&q=karaoke' 
+                 + '&maxResults=' + this.numSearchRes 
+                 + '&type=video'                  
+                 + '&key=' + this.apiKey;
+                 return this.http.get(url).map(response => response.json());             
+             }         
         }   
     }
+
+    
 }

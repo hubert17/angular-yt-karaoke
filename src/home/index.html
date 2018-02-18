@@ -16,6 +16,10 @@
 
         gtag('config', 'UA-112023029-1');
     </script>
+    
+    <script>
+        window.location = "/" + (new URL(location.href)).searchParams.get("roomId");
+    </script>
 
     <meta http-equiv="refresh" content="0;URL='/'" />
     <style>

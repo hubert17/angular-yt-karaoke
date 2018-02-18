@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
   @ViewChild('videoItemIDvalue') private videoItemIDvalue: ElementRef;
 
   AppTitle = "YoutubeK by Gabs";
-  roomId= '';
+  roomId= 'default';
 
   notify: any;
   nw: any;
@@ -91,19 +91,6 @@ export class AppComponent implements OnInit {
   fsVideosPlaybackState: Observable<any>;
   subscription : Subscription;
 
-  isDesktop=true;
-  checkMobile() {
-    var isWebkit = 'WebkitAppearance' in document.documentElement.style
-    var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    if (isWebkit) {
-        if (isMobile) {
-          console.log('IsMobile');
-          return this.isDesktop=false;
-        }
-    }
-    return this.isDesktop=true;
-  }
-
   constructor(
     private youtube: YoutubeGetVideo,
     private shared: SharedService,
@@ -116,7 +103,27 @@ export class AppComponent implements OnInit {
     this.notify = this._shared.notify;
   }
 
+  isDesktop=true;
+  checkMobile() {
+    var isWebkit = 'WebkitAppearance' in document.documentElement.style
+    var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if (true)  //if (isWebkit) 
+    {
+        if (isMobile) {
+          console.log('IsMobile');
+          return this.isDesktop=false;
+        }
+    }
+    return this.isDesktop=true;
+  }
+
   ngOnInit() {
+    this.checkMobile();
+    var roomId = (new URL(location.href)).searchParams.get("roomId");
+    if(roomId) {
+      this.roomId = roomId;
+    }
+
       this._nwjs.init().subscribe((data) => {
         if (typeof data !== 'undefined') {
           this.nw = data;
@@ -128,13 +135,10 @@ export class AppComponent implements OnInit {
       this.setSettings();
       this.getFeedVideos();
       this.getFsPlaylist();
-
   }
 
-  getFsPlaylist() {
-    this.roomId = (new URL(location.href)).searchParams.get("roomId");
-    this.fsVideosCol = this.afs.collection('karaoke', ref => {
-      console.log("inside this.roomId: " + this.roomId);         
+  getFsPlaylist() {   
+    this.fsVideosCol = this.afs.collection('karaoke', ref => {        
       return ref.where('roomId', '==', this.roomId);
     });      
     this.fsVideos = this.fsVideosCol.valueChanges();              
@@ -173,7 +177,7 @@ export class AppComponent implements OnInit {
       'playsinline': 1,
       'autoplay': 0,
       'loop': 0,
-      'origin': 'http://google.com',
+      'origin': 'https://www.youtube.com',
       'rel': 0
     };
     return playerVars;
@@ -293,7 +297,7 @@ export class AppComponent implements OnInit {
   // ---------------- Playlist settings ----------------
 
   playlistInit() {
-      console.log('playlistInit RoomId: ' + this.roomId);
+      console.log('RoomId: ' + this.roomId);
       this.findPlaylistItem();
 
       this.fsVideosCurrent.subscribe(data => {
@@ -304,10 +308,18 @@ export class AppComponent implements OnInit {
         console.log('From remote:' + data.state);  
         if (data.state === "pause") {
           console.log("Remote State: PAUSE video");
-          this.player.pauseVideo();
+          if(this.isDesktop) {
+            this.player.pauseVideo();
+          }  else {
+            this.currentState = 0;
+          }          
         } else if (data.state === "play"){
           console.log("Remote State: PLAY video");
-          this.player.playVideo();
+          if(this.isDesktop) {
+            this.player.playVideo();
+          } else {
+            this.currentState = 1;
+          }           
         }                                           
       });          
 
@@ -491,7 +503,7 @@ export class AppComponent implements OnInit {
   }
 
   getVideo(data: any) {
-    console.log("GETTING VIDEO:" + JSON.stringify(data.snippet.title));
+    //console.log("GETTING VIDEO:" + JSON.stringify(data.snippet.title));
     this.setCurrentVideoObject(data);
     if (data.id.videoId) {
       this.getStatsVideos(data.id.videoId);
@@ -502,7 +514,7 @@ export class AppComponent implements OnInit {
   }
 
   getVideoFs(data: any) {
-    console.log("GETTING VIDEO:" + JSON.stringify(data.snippet.title));
+    //console.log("GETTING VIDEO:" + JSON.stringify(data.snippet.title));
     this.setCurrentVideoObject(data, false);
     if (data.id.videoId) {
       this.getStatsVideos(data.id.videoId);
@@ -521,11 +533,11 @@ export class AppComponent implements OnInit {
       }
       this.currentVideo.title = data.snippet.title;
       this._shared.addHistoryVideo(data);      
-      if(fromMe) {
+      if(this.isDesktop) {
         this.player.loadVideoById(this.currentVideo.id);
       } else {
-        this.player.loadVideoById(this.currentVideo.id);
-      }      
+        this.currentState = 1;
+      }   
       this.getRelatedVideos();
       this.findPlaylistItem();
     }
@@ -533,7 +545,7 @@ export class AppComponent implements OnInit {
 
   getStatsVideos(query: string) {
      this.youtube.statsVideos(query).subscribe(
-        result => {
+        result => {          
           // var i = this.playlistVideos.indexOf(this.currentVideoObject[0]);          
           this.currentVideo.id = result.items[0].id;
           this.currentVideo.title = result.items[0].snippet.title;
@@ -544,18 +556,32 @@ export class AppComponent implements OnInit {
           this.shareLink = 'https://youtu.be/' + this.currentVideo.id;  
           console.log("CURRENT:" + JSON.stringify(result.items[0].snippet.title));
 
-          if(!result.items[0].status.embeddable || !result.items[0].status.publicStatsViewable) {            
+          if(!result.items[0].status.embeddable) {            
+            var title = result.items[0].snippet.title;
             this._shared.triggerNotify('This karaoke title cannot be played outside Youtube.com. No worries! We replace it with an embeddable one.', 5000);                                                       
-            this.subscription = this.youtube.searchVideo(result.items[0].snippet.title, true).subscribe(result => {
-              this.player.loadVideoById(result.items[0].id);
-              this.subscription.unsubscribe();
-            });
             this.youtube.flagEmbeddable(result.items[0].id, 
               result.items[0].snippet.title, 
               result.items[0].snippet.channelTitle).subscribe(
               result => {
+                if(result.replaceId) {
+                  if(this.isDesktop) {
+                    this.player.loadVideoById(result.replaceId);
+                  } else {                
+                    this.playPauseVideo();
+                  }
+                } else {
+                  this.subscription = this.youtube.searchVideo(title, true).subscribe(result => {
+                    if(this.isDesktop) {
+                      var i = Math.floor(Math.random() * (1 - 0 + 1)) + 0;
+                      this.player.loadVideoById(result.items[i].id);
+                    } else {                
+                      this.playPauseVideo();
+                    }
+                    this.subscription.unsubscribe();
+                  });
+                }
                 setTimeout( () => {
-                  this._shared.triggerNotify(JSON.stringify(result), 3000);                   
+                  this._shared.triggerNotify(JSON.stringify(result.replaceId), 3000);                   
                 }, 6000);
               },
               error => {
@@ -571,7 +597,8 @@ export class AppComponent implements OnInit {
   }
 
   getRelatedVideos() {
-    this.youtube.relatedVideos(this.currentVideo.id).subscribe(
+    if(this.isDesktop) {
+      this.youtube.relatedVideos(this.currentVideo.id).subscribe(
         result => {
           this.relatedVideos = result.items;
           if (this.playlistPrefill) {
@@ -583,6 +610,7 @@ export class AppComponent implements OnInit {
           console.log('error on related videos');
         }
       );
+    }
   }
 
   // ---------------- Player controls ----------------
@@ -590,11 +618,19 @@ export class AppComponent implements OnInit {
   playPauseVideo() {
     var pState = "";
     if (this.currentState === 1) {
-      this.player.pauseVideo();
+      if(this.isDesktop) {
+        this.player.pauseVideo();
+      } else {
+        this.currentState = 0;
+      }     
       pState = "pause";
       console.log("Locals State: PAUSE video");  
     } else {
-      this.player.playVideo();
+      if(this.isDesktop) {
+        this.player.playVideo();
+      } else {
+        this.currentState = 1;
+      }        
       pState = "play";
       console.log("Locals State: PLAY video");  
     }

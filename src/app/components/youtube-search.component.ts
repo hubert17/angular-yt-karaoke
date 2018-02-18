@@ -19,6 +19,8 @@ export class SearchComponent implements OnInit {
   feedVideos: any;
   channel: any;
 
+  relatedVideoId: string;
+
   _shared: any;
   _app: any;
 
@@ -67,6 +69,7 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit() {
+    //console.log('search');
     this.checkMobile();
     this.setSettings();
     this.searchFunction();
@@ -85,7 +88,7 @@ export class SearchComponent implements OnInit {
               this.videos = result.items;
               this._shared.lastSearchedVideos = result.items;
             } else {
-              this.videos = null;
+              this.getRelatedVideos();
             }
           },
           error => {
@@ -105,26 +108,26 @@ export class SearchComponent implements OnInit {
   getFeedVideos() {
       this._shared.getFeed().subscribe(data => {
           this.feedVideos = data;
-          var channelId = (new URL(location.href)).searchParams.get("channelId");
-          this.getChannelTrending(channelId);
+          this.getChannelTrending(this.feedVideos[0].snippet.channelId);
       });
   }
 
   getChannelTrending(query: any) {
-      this._shared.getChannel(query).subscribe(data => {
-          this.feedVideos = this._shared.feedVideos;
-          this.channel = this._shared.channel;
-          this.trendingFirst.video.id = this.feedVideos[0].id;
-          this.trendingFirst.video.title = this.feedVideos[0].snippet.title;
-          this.trendingFirst.video.img = this.feedVideos[0].snippet.thumbnails.medium.url;
-          this.trendingFirst.bannerURL = this.feedVideos[0].snippet.thumbnails.high.url;
-          this.trendingFirst.video.channelTitle = this.channel.items[0].snippet.title;
-      });
-  }
+    this._shared.getChannel(query).subscribe(data => {
+        this.feedVideos = this._shared.feedVideos;
+        this.channel = this._shared.channel;
+        this.trendingFirst.video.id = this.feedVideos[0].id;
+        this.trendingFirst.video.title = this.feedVideos[0].snippet.title;
+        this.trendingFirst.video.img = this.feedVideos[0].snippet.thumbnails.medium.url;
+        this.trendingFirst.bannerURL = this.feedVideos[0].snippet.thumbnails.high.url;
+        this.trendingFirst.video.channelTitle = this.channel.items[0].snippet.title;
+    });
+}
 
   clearSearch() {
     this.searchForm.reset();
-    this.videos = null;
+    document.getElementById("input-search").focus();
+    //this.videos = null;
   }
 
   onSubmit(event: Event) {
@@ -145,6 +148,23 @@ export class SearchComponent implements OnInit {
   }
 
   addPlaylistItem(i: number, list: number) {
-      this._app.addPlaylistItem(i, list);
+      this._app.addPlaylistItem(i, list);    
+      if(this.videos) {
+        this.relatedVideoId = this.videos[i].id.videoId; 
+      } else {
+        this.relatedVideoId = this.feedVideos[i].id.videoId; 
+      }       
+  }
+
+  getRelatedVideos() {
+    //console.log('getRelatedVideos: ' + this.relatedVideoId);
+    this.youtube.relatedVideos(this.relatedVideoId).subscribe(
+        result => {
+          this.videos = result.items;
+        },
+        error => {
+          console.log('error on related videos');
+        }
+      );
   }
 }

@@ -1,6 +1,6 @@
 <header>
   <div class="header-bar">
-      <h1><span class="favicon-app"></span>YouTube Player v2.0</h1>
+      <h1><span class="favicon-app"></span>YouTube-K by Gabs</h1>
       <div class="win-controls">
           <button id="win-minimize" (click)="winMinimize();"></button>
           <button id="win-maximize" (click)="winMaximize();"></button>
@@ -13,9 +13,14 @@
       </div>
   </div>
   <div class="device-bar">
-    <button type="button" class="trigger-nav" (click)="openMobileMenu()"><span class="fa fa-navicon"></span>Menu</button>
+    <button type="button" class="trigger-nav" (click)="openMobileMenu()"><span class="fa fa-navicon"></span>&nbsp;</button>
+    <style scoped>
+      #logo {
+          display: inline-block;
+      }
+    </style>    
     <div id="logo">
-        <a routerLink="/home" class="logo-svg-small" title="Homepage"></a>
+        <a (click)="openMobileMenu()" class="logo-svg-small" title="Homepage"></a>
         <small *ngIf="regionCode">{{ regionCode }}</small>
       </div>
   </div>
@@ -62,7 +67,7 @@
                           <p class="video-item-hint"><span class="fa fa-pause"></span>Paused</p> 
                         </ng-container>                       
                         <ng-container *ngIf="currentPlaylistItem === i &&  currentState === -1">                        
-                          <p class="video-item-hint"><span class="fa fa-stop"></span>Not started</p> 
+                          <p class="video-item-hint" *ngIf="isDesktop"><span class="fa fa-stop"></span>Not started</p> 
                         </ng-container>                       
                         <p class="video-item-title">{{ playlistVideo.snippet.title }}</p>
                         <p class="video-item-autor">by <span>{{ playlistVideo.snippet.channelTitle }}</span></p>
@@ -120,7 +125,7 @@
             </div>
         </div>
     </div>
-    <div class="col col-2">
+    <div *ngIf="isDesktop" class="col col-2">
         <div class="app app-player">
             <div class="app-head">
                 <h2>Player</h2>
