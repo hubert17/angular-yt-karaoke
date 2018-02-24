@@ -325,24 +325,26 @@ export class AppComponent implements OnInit {
         this.getVideoFs(data)                 
       }); 
 
-      this.fsVideosPlaybackState.subscribe(data => {   
-        console.log('From remote:' + data.state);  
-        if (data.state === "pause") {
-          console.log("Remote State: PAUSE video");
-          if(this.isDesktop) {
-            this.player.pauseVideo();
-          }  else {
-            this.currentState = 0;
-          }          
-        } else if (data.state === "play"){
-          console.log("Remote State: PLAY video");
-          if(this.isDesktop) {
-            this.player.playVideo(); 
-            this.launchIntoFullscreen(this.player);           
-          } else {
-            this.currentState = 1;
-          }           
-        }                                           
+      this.fsVideosPlaybackState.subscribe(data => {  
+        if(typeof data.state != "undefined" || typeof data.state != null) {
+          console.log('From remote:' + data.state);  
+          if (data.state === "pause") {
+            console.log("Remote State: PAUSE video");
+            if(this.isDesktop) {
+              this.player.pauseVideo();
+            }  else {
+              this.currentState = 0;
+            }          
+          } else if (data.state === "play"){
+            console.log("Remote State: PLAY video");
+            if(this.isDesktop) {
+              this.player.playVideo(); 
+              this.launchIntoFullscreen(this.player);           
+            } else {
+              this.currentState = 1;
+            }           
+          }   
+        }                                       
       });          
 
       this.fsVideosNext.subscribe(data => {     
@@ -562,9 +564,8 @@ export class AppComponent implements OnInit {
           this.currentVideo.stats.views = result.items[0].statistics.viewCount;
           this.shareLink = 'https://youtu.be/' + this.currentVideo.id;  
           console.log("CURRENT:" + JSON.stringify(result.items[0].snippet.title));
-
-          if(!result.items[0].status.embeddable) {            
-            var title = result.items[0].snippet.title;
+          var title = result.items[0].snippet.title;
+          if(!result.items[0].status.embeddable) {                        
             this._shared.triggerNotify('This karaoke title cannot be played outside Youtube.com. No worries! We temporarily replace it with an embeddable one.', 5000);                                                       
             this.youtube.flagEmbeddable(result.items[0].id, 
               result.items[0].snippet.title, 
@@ -574,30 +575,79 @@ export class AppComponent implements OnInit {
               .subscribe(result => {
                 if(result.replaceId) {
                   if(this.isDesktop) {
-                    this.player.loadVideoById(result.replaceId);
+                    console.log("Attemp 1: Replacing video...");
+                    this.player.loadVideoById(result.replaceId);                    
                   } else {                
                     this.playPauseVideo();
                   }
                 } else {
                   this.subscription = this.youtube.searchVideo(title, true).subscribe(result => {
                     if(this.isDesktop) {
+                      console.log("Attemp 1: Replacing video...");
                       var i = Math.floor(Math.random() * (1 - 0 + 1)) + 0;
-                      this.player.loadVideoById(result.items[i].id);
+                      this.player.loadVideoById(result.items[i].id);                   
                     } else {                
                       this.playPauseVideo();
                     }
                     this.subscription.unsubscribe();
                   });
-                }
+                } 
                 setTimeout( () => {
-                  this._shared.triggerNotify(JSON.stringify(result.replaceId), 3000);                   
-                }, 6000);
+                  this._shared.triggerNotify(JSON.stringify(result.replaceId), 3000);                                                
+                }, 6000);                           
               },
               error => {
                 console.log('error on unembeddable videos');
               }
             );
           }
+          setTimeout( () => {
+            if(this.player.getPlayerState() == -1)  {
+              console.log("Attemp 2: Replacing video...");
+              this.subscription = this.youtube.searchVideo(title, true).subscribe(result => {
+                if(this.isDesktop) {
+                  var i = Math.floor(Math.random() * (1 - 0 + 1)) + 0;
+                  this.player.loadVideoById(result.items[i].id);                     
+                } else {                
+                  this.playPauseVideo();
+                }
+                this.subscription.unsubscribe();
+              });
+            }                                               
+          }, 6000);            
+          setTimeout( () => {
+            if(this.player.getPlayerState() == -1)  {
+              console.log("Attemp 3: Replacing video...");
+              this.subscription = this.youtube.searchVideo(title, true).subscribe(result => {
+                if(this.isDesktop) {
+                  this.player.loadVideoById(result.items[2].id);                     
+                } else {                
+                  this.playPauseVideo();
+                }
+                this.subscription.unsubscribe();
+              });
+            }                                               
+          }, 10000);  
+          setTimeout( () => {            
+            if(this.player.getPlayerState() == -1)  {
+              console.log("Attemp 4: Replacing video...");
+              this.subscription = this.youtube.searchVideo(title, true).subscribe(result => {
+                if(this.isDesktop) {
+                  this.player.loadVideoById(result.items[3].id);                     
+                } else {                
+                  this.playPauseVideo();
+                }
+                this.subscription.unsubscribe();
+              });
+            }                                            
+          }, 15000); 
+          setTimeout( () => {            
+            if(this.player.getPlayerState() == 1)  {
+              console.log("VideoId successfully loaded.");
+            } else {
+              console.log("Failed replacing videoId.");
+            }                                            
+          }, 18000);            
         },
         error => {
           console.log('error on related videos');

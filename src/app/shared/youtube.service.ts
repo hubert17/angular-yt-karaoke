@@ -49,7 +49,7 @@ export class YoutubeGetVideo {
             if(embeddable) {
                 paramEmbeddable = "&videoEmbeddable=true";
                 if(query) {
-                    numSearch = "2";
+                    numSearch = "4";
                 }           
             }
             var url = this.url 

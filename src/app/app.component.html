@@ -249,10 +249,9 @@
             margin-bottom: 10px;
           }
       </style>
-      <div class="modal-content">           
-        <div class="modal-content">
-            <style scoped>
-              h2 {
+      <div class="modal-content">     
+          <style scoped>
+              modal-content > h2 {
                 font-size: large;
                 font-weight: bold;
                 color: #27272d !important;
@@ -264,7 +263,8 @@
                   letter-spacing: 1px;
                   color: #27272d !important;
                 }
-              </style>
+              </style>      
+        <div class="modal-content">
           <h2>YoutubeK Basic Usage</h2>   
           <p >On your <span *ngIf="UsageModalDesktop">smartphone</span><span *ngIf="UsageModalMobile">TV-connected PC</span>, logon to <br>            
             <strong>
