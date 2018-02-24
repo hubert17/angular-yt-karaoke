@@ -8,13 +8,13 @@
         </div>
       </div>
       <!-- <ng-container *ngIf="searchForm.valid"> -->
-        <ng-container *ngIf="true">
+      <ng-container *ngIf="videos?.length > 0">
           <span class="search-list arrow-up"></span>
           <style scoped>
-            /* #search-video-list {
+            #search-video-list {
               min-height: calc(100vh - 110px) !important;
               overflow-y: auto;
-            } */
+            }
           </style>
         <div id="search-video-list" class="video-list">
           <div *ngFor="let video of videos; let i = index" [attr.data-index]="i" class="video-item">

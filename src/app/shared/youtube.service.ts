@@ -44,32 +44,33 @@ export class YoutubeGetVideo {
 
     searchVideo(query: string, embeddable = false) {
         if (this.apiKey) {
+            var numSearch = this.numSearchRes;
             var paramEmbeddable = "";
             if(embeddable) {
                 paramEmbeddable = "&videoEmbeddable=true";
                 if(query) {
-                    this.numSearchRes = "2";
-                } else {
-                    this.numSearchRes = "15";
-                }            
+                    numSearch = "2";
+                }           
             }
             var url = this.url 
             + 'search?part=snippet&q=karaoke+' + query 
-            + '&maxResults=' + this.numSearchRes 
+            + '&maxResults=' + numSearch
             + '&type=video' + paramEmbeddable                  
             + '&key=' + this.apiKey; //'&key=AIzaSyC1WE0bNK-vyGNndluOs-mJ7JKAbMHcS8A'
+
             return this.http.get(url).map(response => response.json());               
         }        
     }
 
-    flagEmbeddable(id: string, title: string, channel: string, status = "") {
-        var url = 'http://youtubek.azurewebsites.net/fixembed?id='
-                    + id + '&t=' + title + '&c=' + channel + '&s=' + status;
+    flagEmbeddable(id: string, title: string, channelId: string, channelName = "", fixBy = "") {
+        var url = '/fixembed?id='
+                    + id + '&t=' + title + '&cId=' + channelId + '&c=' + channelName + '&u=' + fixBy;
+        console.log("Fixembed: " + url);
         return this.http.get(url).map(response => response.json());   
     }
 
     relatedVideos(query: string) {
-        if (this.apiKey) {
+        if (this.apiKey && query) {
             return this.http.get(
                     this.url + 'search?part=snippet&relatedToVideoId='
                     + query + '&maxResults=10'

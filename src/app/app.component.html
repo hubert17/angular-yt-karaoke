@@ -128,7 +128,7 @@
     <div *ngIf="isDesktop" class="col col-2">
         <div class="app app-player">
             <div class="app-head">
-                <h2>Player</h2>
+                <h2>{{AppTitle}}</h2>
                 <div class="settings">
                     <p (click)="addPlaylistItem(0, 3)"><span class="fa fa-plus"></span>Add to playlist</p>
                 </div>
@@ -242,8 +242,53 @@
         <button type="button" class="btn btn-link" (click)="closeModal()">Cancel</button>        
       </div>
     </div>
+    <div class="modal-container">      
+      <style scoped>
+          h2 {
+            margin-top: 0px;
+            margin-bottom: 10px;
+          }
+      </style>
+      <div class="modal-content">           
+        <div class="modal-content">
+            <style scoped>
+              h2 {
+                font-size: large;
+                font-weight: bold;
+                color: #27272d !important;
+              }
+                input {
+                  text-align: center;
+                  font-style: italic;
+                  font-size: smaller;
+                  letter-spacing: 1px;
+                  color: #27272d !important;
+                }
+              </style>
+          <h2>YoutubeK Basic Usage</h2>   
+          <p >On your <span *ngIf="UsageModalDesktop">smartphone</span><span *ngIf="UsageModalMobile">TV-connected PC</span>, logon to <br>            
+            <strong>
+                <div class="current-video-share">
+                    <input type="text" #shareInput value="bernardgabon.com/youtubek/{{roomId}}" (click)="copyShareLink(shareInput.select())" readonly>
+                  </div>
+            </strong>
+          </p>
+          <p>Feel free to share this link to your friends all around the world who wish to join your karaoke party!</p>
+          <img src="http://youtubek.azurewebsites.net/app/assets/img/pc2tv.gif" alt="Connect PC/Laptop to TV" />          
+          <p>For a smooth ad-banner-free karaoke experience, <span *ngIf="UsageModalMobile">on your PC</span> install 
+            <a href="https://chrome.google.com/webstore/detail/adblock-for-youtube/cmedhionkhpnakcndndgjdbohmhepckk"><strong>Adblock for Chrome</strong>&nbsp; 
+                <img alt="Extension" aria-label="Extension" src="https://lh3.googleusercontent.com/wHakeb5_9Tt5ymF5T3l3waztfFZKnwg6DNLT3kxH75vkmSal6jBPK9_E0WdXyABvdMGIa6oo_w=w26-h26-e365" style=" width:26px; height:26px;">
+            </a>
+          </p>
+        </div>
+      </div>
+      <div class="modal-buttons">       
+        <button type="button" class="btn btn-primary" (click)="closeUsageModal()">Got it!</button>        
+      </div>
+    </div>    
   </div>
   
+
   <!-- <div id="mobile-unavailable">
     The app is not available for mobile/tablet.
   </div> -->

@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
   @ViewChild('videoItemIDvalue') private videoItemIDvalue: ElementRef;
 
   AppTitle = "YoutubeK by Gabs";
-  roomId= 'default';
+  roomId= 'public';
 
   notify: any;
   nw: any;
@@ -41,6 +41,8 @@ export class AppComponent implements OnInit {
   modalPlaylist = false;
   modalExportPlaylist = false;
   modalPlaylistItem: number;
+  UsageModalDesktop = false;
+  UsageModalMobile = false;
 
   playlistPrefill = true;
   currentPlaylistItem: number;
@@ -135,6 +137,13 @@ export class AppComponent implements OnInit {
       this.setSettings();
       this.getFeedVideos();
       this.getFsPlaylist();
+
+      this.modal = true;
+      if(this.isDesktop) {
+        this.UsageModalDesktop= true;
+      } else {
+        this.UsageModalMobile = true;
+      }
   }
 
   getFsPlaylist() {   
@@ -217,6 +226,18 @@ export class AppComponent implements OnInit {
     // this.findPlaylistItem();
   }
 
+  launchIntoFullscreen(element) {
+    if(element.requestFullscreen) {
+      element.requestFullscreen();
+    } else if(element.mozRequestFullScreen) {
+      element.mozRequestFullScreen();
+    } else if(element.webkitRequestFullscreen) {
+      element.webkitRequestFullscreen();
+    } else if(element.msRequestFullscreen) {
+      element.msRequestFullscreen();
+    }
+  }
+
   onStateChange(event) {
     this.currentState = event.data;
     this.videoMaxRange = this.player.getDuration();
@@ -297,7 +318,7 @@ export class AppComponent implements OnInit {
   // ---------------- Playlist settings ----------------
 
   playlistInit() {
-      console.log('RoomId: ' + this.roomId);
+      console.log('RoomId: ' + this.roomId);      
       this.findPlaylistItem();
 
       this.fsVideosCurrent.subscribe(data => {
@@ -316,7 +337,8 @@ export class AppComponent implements OnInit {
         } else if (data.state === "play"){
           console.log("Remote State: PLAY video");
           if(this.isDesktop) {
-            this.player.playVideo();
+            this.player.playVideo(); 
+            this.launchIntoFullscreen(this.player);           
           } else {
             this.currentState = 1;
           }           
@@ -411,23 +433,8 @@ export class AppComponent implements OnInit {
         playlistItem = this.playlistVideos.find(item => item.id === listType.id);
       }
 
-      this._shared.addKaraokeFs(listType);
+      this._shared.addKaraokeFs(listType, this.roomId);
       this._shared.triggerNotify('Added to playlist');
-      // if (typeof playlistItem === 'undefined') {
-      //   this.playlistVideos.push(listType);
-
-      //   this._shared.playlist.push(listType);
-      //   this._shared.updatePlaylist();
-      //   this._shared.addKaraokeFs(listType);
-
-      //   this.findPlaylistItem();
-      //   this._shared.triggerNotify('Added to playlist');
-      //   this.updateNotify();
-      //   this.scrollToBottom();
-      // } else {
-      //   this._shared.triggerNotify('Video is already in playlist');
-      //   this.updateNotify();
-      // }
   }
 
   clearPlaylist() {
@@ -558,11 +565,13 @@ export class AppComponent implements OnInit {
 
           if(!result.items[0].status.embeddable) {            
             var title = result.items[0].snippet.title;
-            this._shared.triggerNotify('This karaoke title cannot be played outside Youtube.com. No worries! We replace it with an embeddable one.', 5000);                                                       
+            this._shared.triggerNotify('This karaoke title cannot be played outside Youtube.com. No worries! We temporarily replace it with an embeddable one.', 5000);                                                       
             this.youtube.flagEmbeddable(result.items[0].id, 
               result.items[0].snippet.title, 
-              result.items[0].snippet.channelTitle).subscribe(
-              result => {
+              result.items[0].snippet.channelId,
+              result.items[0].snippet.channelTitle,
+              this.roomId)
+              .subscribe(result => {
                 if(result.replaceId) {
                   if(this.isDesktop) {
                     this.player.loadVideoById(result.replaceId);
@@ -699,6 +708,11 @@ export class AppComponent implements OnInit {
     this.modalPlaylist = false;
     this.modalExportPlaylist = false;
   }
+  closeUsageModal() {
+    this.modal = false;
+    this.UsageModalDesktop = false;
+    this.UsageModalMobile = false;
+  }  
 
   showPlaylistModal(i: number) {
     this.modal = true;

@@ -85,8 +85,8 @@ export class SearchComponent implements OnInit {
         this.youtube.searchVideo(form.searchInput).subscribe(
           result => {
             if (!this.searchForm.invalid) {
-              this.videos = result.items;
-              this._shared.lastSearchedVideos = result.items;
+              this.videos = result.items;              
+              this._shared.lastSearchedVideos = result.items;              
             } else {
               this.getRelatedVideos();
             }
@@ -126,8 +126,7 @@ export class SearchComponent implements OnInit {
 
   clearSearch() {
     this.searchForm.reset();
-    document.getElementById("input-search").focus();
-    //this.videos = null;
+    document.getElementById("input-search").focus();    
   }
 
   onSubmit(event: Event) {
@@ -137,7 +136,6 @@ export class SearchComponent implements OnInit {
   onClickVideo(event: Event, i: any, list: number) {
     if (list === 1) {
       this._app.getVideo(this.videos[i]);
-      this.clearSearch();
     } else if (list === 3) {
       this._app.getVideo(this.feedVideos[i]);
     }
@@ -151,16 +149,17 @@ export class SearchComponent implements OnInit {
       this._app.addPlaylistItem(i, list);    
       if(this.videos) {
         this.relatedVideoId = this.videos[i].id.videoId; 
-      } else {
-        this.relatedVideoId = this.feedVideos[i].id.videoId; 
-      }       
+      }     
   }
 
   getRelatedVideos() {
-    //console.log('getRelatedVideos: ' + this.relatedVideoId);
+    if(!this.relatedVideoId) {
+      this.relatedVideoId = this.feedVideos[0].id.videoId; 
+    }  
     this.youtube.relatedVideos(this.relatedVideoId).subscribe(
         result => {
-          this.videos = result.items;
+          this.videos = result.items;              
+          this._shared.lastSearchedVideos = result.items;   
         },
         error => {
           console.log('error on related videos');

@@ -1465,7 +1465,7 @@ nav a.is-active .description, nav a:active .description {
   display: block;
   position: relative;
   color: var(--c-white);
-  margin-top: 5px;
+  margin-top: 0;
 }
 
 #main-search .search-icon {
@@ -1516,7 +1516,7 @@ nav a.is-active .description, nav a:active .description {
   border: none;
   background: transparent;
   color: inherit;
-  padding: 0;
+  padding: 5px 0 8px 30px;
   margin: 0;
   cursor: pointer;
   position: absolute;

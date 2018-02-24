@@ -25,7 +25,7 @@ export class SharedService {
 
     public subscription: Subscription;
 
-    public roomId = 'default';
+    roomId= 'public'
     //public channelId = 'default';
 
     _update: any;
@@ -44,6 +44,10 @@ export class SharedService {
     ) {}
 
     ngOnInit(){       
+        var roomId = (new URL(location.href)).searchParams.get("roomId");
+        if(roomId) {
+          this.roomId = roomId;
+        }
     };
 
     getFeed(): Observable<any> {
@@ -166,14 +170,16 @@ export class SharedService {
     }
 
     //this.fsVideosCol.doc('Current').set({"Seq" : data.seq });
-    addKaraokeFs(data: any) {        
-        let roomId;
+    addKaraokeFs(data: any, roomId: string) {        
         var fsKarCount = this.afs.collection<any>('karaokeCount');
         var fsKarCol = this.afs.collection<any>('karaoke');
 
-        this.getRoom().subscribe(data => {
-            roomId = data;
-        })
+        // this.getRoom().subscribe(data => {
+        //     roomId = data;
+        // })
+        if(!roomId) {
+            roomId = this.roomId
+        }
      
         fsKarCount.doc('1').ref.get().then(function(doc) {
             var newCount;
@@ -216,10 +222,10 @@ export class SharedService {
         });                
     }
 
-    getRoom() {
-        return this.route.queryParams.map((params: Params) => {    
-            return params.roomId;
-        });
-    }
+    // getRoom() {
+    //     return this.route.queryParams.map((params: Params) => {    
+    //         return params.roomId;
+    //     });
+    // }
 
 }
