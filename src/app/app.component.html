@@ -111,6 +111,9 @@
                       <button class="video-item-play" (click)="onClickPlaylist($event, i)">
                         <span class="fa " [ngClass]="currentPlaylistItem === i &&  currentState === 1 ? 'fa-pause' : 'fa-play'"></span>
                       </button>
+                      <button *ngIf="isAdmin" class="video-item-share" (click)="flagAsHighQuality(playlistVideo.id.videoId,playlistVideo.snippet.title,playlistVideo.snippet.channelId,playlistVideo.snippet.channelTitle)">
+                        <span class="fa fa-heart"></span>
+                      </button>                        
                       <button class="video-item-share" (click)="onCopyVideoItemLink(i, 3)">
                         <span class="fa fa-share-alt"></span>
                       </button>
@@ -273,7 +276,8 @@
                   </div>
             </strong>
           </p>
-          <p>Feel free to share this link to your friends all around the world who wish to join your karaoke party!</p>
+          <p *ngIf="UsageModalMobile">Feel free to share this link to your friends all around the world who wish to join your karaoke party!</p>
+          <p *ngIf="UsageModalDesktop">We highly recommend connecting this PC/Laptop to a big screen TV. Click this <a href="https://www.wikihow.com/Connect-PC-to-TV" target="_blank">link</a> to learn how.</p>
           <img src="http://youtubek.azurewebsites.net/app/assets/img/pc2tv.gif" alt="Connect PC/Laptop to TV" />          
           <p>For a smooth ad-banner-free karaoke experience, <span *ngIf="UsageModalMobile">on your PC</span> install 
             <a href="https://chrome.google.com/webstore/detail/adblock-for-youtube/cmedhionkhpnakcndndgjdbohmhepckk"><strong>Adblock for Chrome</strong>&nbsp; 

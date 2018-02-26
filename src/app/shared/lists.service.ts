@@ -11,7 +11,8 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 @Injectable()
 export class SharedService {
 
-    public feedVideos: Array<any>;
+    public feedVideos: Array<any> = [];
+    public nextPageToken : '';
     public lastSearchedVideos: Array<any>;
     public historyVideos: Array<any> = [];
     public settings: Array<any>;
@@ -52,16 +53,17 @@ export class SharedService {
 
     getFeed(): Observable<any> {
         return new Observable(observer => {
-            if (this.feedVideos) {
-                observer.next(this.feedVideos);
-                return observer.complete();
-            }
+            // if (this.feedVideos) {
+            //     observer.next(this.feedVideos);
+            //     return observer.complete();
+            // }
             this.getSettings().subscribe(data => {
                 this.setApiSettings();
                 this.settings = data;
-                this.youtube.feedVideos().subscribe(
+                this.youtube.feedVideos(this.nextPageToken).subscribe(
                     result => {
-                        this.feedVideos = result.items;
+                        this.feedVideos = this.feedVideos.concat(result.items);
+                        this.nextPageToken = result.nextPageToken;
                         this.youtube.getChannel(result.items[0].snippet.channelId).subscribe(
                         resultChannel => {
                             this.channel = resultChannel;

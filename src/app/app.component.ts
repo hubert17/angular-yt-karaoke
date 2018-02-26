@@ -105,6 +105,7 @@ export class AppComponent implements OnInit {
     this.notify = this._shared.notify;
   }
 
+  isAdmin = false;
   isDesktop=true;
   checkMobile() {
     var isWebkit = 'WebkitAppearance' in document.documentElement.style
@@ -124,6 +125,9 @@ export class AppComponent implements OnInit {
     var roomId = (new URL(location.href)).searchParams.get("roomId");
     if(roomId) {
       this.roomId = roomId;
+      if(this.roomId == 'gabs') {        
+        this.isAdmin = true;
+      }
     }
 
       this._nwjs.init().subscribe((data) => {
@@ -459,6 +463,12 @@ export class AppComponent implements OnInit {
       a.click();
   }
 
+  flagAsHighQuality(id: string, title: string, channelId="", channelName = "") {
+    this.youtube.flagAsHighQuality(id, title, channelId, channelName, this.roomId).subscribe(res => {      
+      this._shared.triggerNotify(res.hq, 3000);
+    });
+  }
+
   // ---------------- Init settings ----------------
 
   preventOldSettings() {
@@ -644,9 +654,7 @@ export class AppComponent implements OnInit {
           setTimeout( () => {            
             if(this.player.getPlayerState() == 1)  {
               console.log("VideoId successfully loaded.");
-            } else {
-              console.log("Failed replacing videoId.");
-            }                                            
+            }                                          
           }, 18000);            
         },
         error => {
@@ -683,7 +691,7 @@ export class AppComponent implements OnInit {
         this.currentState = 0;
       }     
       pState = "pause";
-      console.log("Locals State: PAUSE video");  
+      //console.log("Locals State: PAUSE video");  
     } else {
       if(this.isDesktop) {
         this.player.playVideo();
@@ -691,7 +699,7 @@ export class AppComponent implements OnInit {
         this.currentState = 1;
       }        
       pState = "play";
-      console.log("Locals State: PLAY video");  
+      //console.log("Locals State: PLAY video");  
     }
     this.fsVideoStats.doc('playback-' + this.roomId).set({"state": pState});      
   }

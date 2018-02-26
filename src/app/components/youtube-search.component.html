@@ -99,7 +99,26 @@
               <span class="fa fa-plus"></span>
             </button>
           </div>
-      </div>
+      </div>        
+      <!-- Load pa more! -->
+      <div [ngClass]="{'hidden-thumbnails': !thumbnails }" class="video-item"  (click)="getFeedVideos()">
+        <div class="video-item-info">
+          <div *ngIf="thumbnails" class="video-item-image" style="background-image:url(http://youtubek.azurewebsites.net/app/assets/img/smartkara.png)"></div>
+          <div class="video-item-content">
+            <p class="video-item-title">LOAD PA MORE...</p>
+            <p class="video-item-autor">Load more karaoke videos</p>
+          </div>
+        </div>
+        <div class="video-item-settings">
+            <button class="video-item-add">
+              <span class="fa fa-plus"></span>
+            </button>
+        </div>
+      </div> 
     </div>
+
+
+
+    
   </ng-container>
 </div>

@@ -65,15 +65,20 @@ export class YoutubeGetVideo {
     flagEmbeddable(id: string, title: string, channelId: string, channelName = "", fixBy = "") {
         var url = '/fixembed?id='
                     + id + '&t=' + title + '&cId=' + channelId + '&c=' + channelName + '&u=' + fixBy;
-        console.log("Fixembed: " + url);
         return this.http.get(url).map(response => response.json());   
+    }
+
+    flagAsHighQuality(id: string, title: string, channelId = "", channelName = "", flagby = "") {
+        var url = '/fixembed?id='
+        + id + '&t=' + title + '&cId=' + channelId + '&c=' + channelName + '&u=' + flagby + '&hq=1';
+        return this.http.get(url).map(response => response.json());
     }
 
     relatedVideos(query: string) {
         if (this.apiKey && query) {
             return this.http.get(
                     this.url + 'search?part=snippet&relatedToVideoId='
-                    + query + '&maxResults=10'
+                    + query + '&maxResults=' + this.numRelatedRes
                     + '&type=video&videoEmbeddable=true&key='
                     + this.apiKey
                 )
@@ -93,25 +98,27 @@ export class YoutubeGetVideo {
         }
     }
 
-    feedVideos() {
+    feedVideos(nextPageToken = "") {
         if (this.apiKey) {
              var channelId = (new URL(location.href)).searchParams.get("channelId");
-             //var channelId = "UCaPwSXblS8F0owlKHGc6huw";
+             if(nextPageToken) {
+                 nextPageToken = "&pageToken=" + nextPageToken;
+             }
+             var url = "";             
              if(channelId) {
-                 var url = this.url 
-                 + 'search?part=snippet&channelId=' + channelId
-                 + '&maxResults=25' 
+                 url = this.url 
+                 + 'search?part=snippet&channelId=' + channelId + nextPageToken
+                 + '&maxResults=' + this.numSearchRes 
                  + '&type=video&videoEmbeddable=true'                  
                  + '&key=' + this.apiKey;
-                 return this.http.get(url).map(response => response.json()); 
              } else {
-                 var url = this.url 
-                 + 'search?part=snippet&q=karaoke' 
+                 url = this.url 
+                 + 'search?part=snippet&q=karaoke'  + nextPageToken
                  + '&maxResults=' + this.numSearchRes 
                  + '&type=video'                  
-                 + '&key=' + this.apiKey;
-                 return this.http.get(url).map(response => response.json());             
+                 + '&key=' + this.apiKey;                
              }         
+             return this.http.get(url).map(response => response.json()); 
         }   
     }
 

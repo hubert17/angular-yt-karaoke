@@ -108,6 +108,7 @@ export class SearchComponent implements OnInit {
   getFeedVideos() {
       this._shared.getFeed().subscribe(data => {
           this.feedVideos = data;
+          this._app.feedVideos = data;          
           this.getChannelTrending(this.feedVideos[0].snippet.channelId);
       });
   }
