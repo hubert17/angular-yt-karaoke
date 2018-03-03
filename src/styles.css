@@ -2,7 +2,7 @@
 
 
 youtube-player.fullscreenVid > iframe {
-    position: fixed;
+    /* position: fixed; */
     right: 0;
     bottom: 0;
     min-width: 100%;
@@ -19,15 +19,14 @@ youtube-player.fullscreenVid > iframe {
         width: auto;
         max-width: 500px;
         height: auto;
-        -webkit-border-radius: 10px;
-        -moz-border-radius: 10px;
-        border-radius: 10px;
-        background: rgba(0,0,0,0.4);
+        background: -moz-linear-gradient(left, rgba(0,0,0,0.65) 38%, rgba(0,0,0,0.65) 41%, rgba(0,0,0,0.65) 44%, rgba(0,0,0,0.65) 45%, rgba(0,0,0,0.65) 47%, rgba(0,0,0,0) 100%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(left, rgba(0,0,0,0.65) 38%,rgba(0,0,0,0.65) 41%,rgba(0,0,0,0.65) 44%,rgba(0,0,0,0.65) 45%,rgba(0,0,0,0.65) 47%,rgba(0,0,0,0) 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to right, rgba(0,0,0,0.65) 38%,rgba(0,0,0,0.65) 41%,rgba(0,0,0,0.65) 44%,rgba(0,0,0,0.65) 45%,rgba(0,0,0,0.65) 47%,rgba(0,0,0,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
         display: block;
         position: absolute;
         top: 5%;
         left: -5%;
-        padding: 0 20px 0 100px;
+        padding: 0 50px 0 120px;
       }
 
       .overlay h1 {

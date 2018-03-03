@@ -1,6 +1,5 @@
-
-<youtube-player class="fullscreenVid" *ngIf="fullscreenVideo" [videoId]="currentVideo.id" (ready)="savePlayer($event)" (change)="onStateChange($event)" [playerVars]="playerVars()"></youtube-player>
-<div *ngIf="fullscreenVideo && fullscreenOverlayMsg" class="overlay">
+<youtube-player #YTFullscreenPlayer class="fullscreenVid" *ngIf="fullscreenVideo" [videoId]="currentVideo.id" (ready)="savePlayer($event)" (change)="onStateChange($event)" [playerVars]="playerVars()"></youtube-player>
+<div *ngIf="fullscreenVideo && fullscreenOverlayMsg" class="overlay" [@slideIn]>
   <h1>{{ fullscreenOverlayMsg }}</h1>
 </div>  
 
@@ -142,7 +141,7 @@
             <div class="app-head">
                 <h2>{{AppTitle}}</h2>
                 <div class="settings">
-                    <p (click)="toggleFullscreenVideo()"><span class="fa fa-expand"></span>Fullscreen</p>
+                    <p (click)="toggleFullscreenVideo()"><span class="fa fa-expand"></span> iFullscreen</p>
                 </div>
             </div>
             <div class="app-content">

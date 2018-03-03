@@ -1,5 +1,5 @@
-import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
-import { Title } from '@angular/platform-browser';
+import { Component, ElementRef, ViewChild, OnInit} from '@angular/core';
+import { Title, DOCUMENT } from '@angular/platform-browser';
 import { YoutubeGetVideo } from './shared/youtube.service';
 import { SharedService } from './shared/lists.service';
 import { NwjsService } from './shared/nwjs.service';
@@ -11,15 +11,42 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/take';
 
+import { trigger,style,transition,animate,keyframes,query,stagger, state } from '@angular/animations';
+import * as screenfull from 'screenfull';
+
 
 @Component({
   selector: 'app-yt',
-  templateUrl: 'app.component.html'
+  templateUrl: 'app.component.html',
+
+  animations: [
+    trigger(
+      'slideIn',
+      [
+        transition(
+        ':enter', [
+          style({transform: 'translateX(-100%)', opacity: 0}),
+          animate('500ms', style({transform: 'translateX(0)', 'opacity': 1}))
+        ]),
+      transition(
+        ':leave', [
+          style({transform: 'translateX(0)', 'opacity': 1}),
+          animate('500ms', style({transform: 'translateY(-100%)', 'opacity': 0}))          
+        ]),
+    ]
+  )]
+  
+    
+
+
+
+  
+
 })
 
 export class AppComponent implements OnInit {
   @ViewChild('playlistContainer') private myScrollContainer: ElementRef;
-  @ViewChild('videoItemIDvalue') private videoItemIDvalue: ElementRef;
+  @ViewChild('videoItemIDvalue') private videoItemIDvalue: ElementRef;  
 
   AppTitle = "YoutubeK by Gabs";
   roomId= 'public';
@@ -97,7 +124,7 @@ export class AppComponent implements OnInit {
   fsVideosPlaybackState: Observable<any>;
   subscription : Subscription;
 
-  constructor(
+  constructor(    
     private youtube: YoutubeGetVideo,
     private shared: SharedService,
     private nwjs: NwjsService,
@@ -240,25 +267,17 @@ export class AppComponent implements OnInit {
   }
 
   toggleFullscreenVideo() {   
-    if(this.currentVideoObject.length != 0) {
-      this.fullscreenVideo = !this.fullscreenVideo;
-      alert("Kindly press F11 on your keyboard.");  
-      this.player.playVideo();
-      this.fullscreenOverlayMsg = "YoutubeK";
+    if(this.currentVideo.id) {
+      this.fullscreenVideo = !this.fullscreenVideo; 
+      this.fullscreenOverlayMsg = "YoutubeK";       
+      if (screenfull.enabled) {
+        screenfull.request();
+      } 
+      if(this.currentVideo.id) {
+        this.player.loadVideoById(this.currentVideo.id);
+      }
     } else {
-      alert('Kindly start playing a song item.');
-    }
-  }
-
-  launchIntoFullscreen(element) {
-    if(element.requestFullscreen) {
-      element.requestFullscreen();
-    } else if(element.mozRequestFullScreen) {
-      element.mozRequestFullScreen();
-    } else if(element.webkitRequestFullscreen) {
-      element.webkitRequestFullscreen();
-    } else if(element.msRequestFullscreen) {
-      element.msRequestFullscreen();
+      alert('Kindly start playing a song item first.');
     }
   }
 
@@ -363,7 +382,7 @@ export class AppComponent implements OnInit {
             console.log("Remote State: PLAY video");
             if(this.isDesktop) {
               this.player.playVideo(); 
-              this.launchIntoFullscreen(this.player);           
+              //this.launchIntoFullscreen(this.player);           
             } else {
               this.currentState = 1;
             }           

@@ -16,6 +16,8 @@ import { HistoryComponent } from './components/youtube-history.component';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { YoutubePlayerModule } from 'ngx-youtube-player';
 import { environment } from '../environments/environment'
 
@@ -28,7 +30,8 @@ import { environment } from '../environments/environment'
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,      
     routes,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule
   ],
   declarations: [
     AppComponent,
