@@ -18,7 +18,12 @@
     </script>
     
     <script>
-        window.location = "/" + (new URL(location.href)).searchParams.get("roomId");
+        var roomId = (new URL(location.href)).searchParams.get("roomId");
+        var loc = "/public";
+        if(roomId) {
+            loc = "/" + roomId;
+        }
+        window.location = loc;
     </script>
 
     <meta http-equiv="refresh" content="0;URL='/'" />

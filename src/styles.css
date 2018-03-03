@@ -1,1 +1,57 @@
 /* You can add global styles to this file, and also import other style files */
+
+
+youtube-player.fullscreenVid > iframe {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+    background-size: cover;
+    }
+
+    /*****************************/
+
+    .overlay {
+        width: auto;
+        max-width: 500px;
+        height: auto;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        background: rgba(0,0,0,0.4);
+        display: block;
+        position: absolute;
+        top: 5%;
+        left: -5%;
+        padding: 0 20px 0 100px;
+      }
+
+      .overlay h1 {
+        text-align: left;
+        color: #fff;
+        font-family: inherit;
+      }
+
+      .overlay p{
+        text-align: center;
+        width: 80%;
+        margin: 0 auto;
+        color: #fff;
+        font-family: inherit;
+        margin-bottom: 20px;
+      }
+
+      .overlay a {
+        color: #fff;
+      }
+
+      .orange {
+        text-decoration: none;
+      }
+      p a.orange {
+        color: #f27950;
+      }

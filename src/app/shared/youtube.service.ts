@@ -68,10 +68,16 @@ export class YoutubeGetVideo {
         return this.http.get(url).map(response => response.json());   
     }
 
-    flagAsHighQuality(id: string, title: string, channelId = "", channelName = "", flagby = "") {
+    flagAsHighQuality(id: string, title: string, channelId = "", channelName = "", flagby = "", hQ = 0) {
         var url = '/fixembed?id='
-        + id + '&t=' + title + '&cId=' + channelId + '&c=' + channelName + '&u=' + flagby + '&hq=1';
+        + id + '&t=' + title + '&cId=' + channelId + '&c=' + channelName + '&u=' + flagby + '&hq=' + hQ;
         return this.http.get(url).map(response => response.json());
+    }
+
+    IsHighQualityVideo(ids : string[]) {
+        var url = '/youtube/ishq';
+        let data = {Ids: ids};
+        return this.http.get(url, {params: data}).map(response => response.json());
     }
 
     relatedVideos(query: string) {
@@ -105,7 +111,7 @@ export class YoutubeGetVideo {
                  nextPageToken = "&pageToken=" + nextPageToken;
              }
              var url = "";             
-             if(channelId) {
+             if(channelId || channelId === '') {
                  url = this.url 
                  + 'search?part=snippet&channelId=' + channelId + nextPageToken
                  + '&maxResults=' + this.numSearchRes 

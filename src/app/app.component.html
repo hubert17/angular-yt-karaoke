@@ -1,3 +1,9 @@
+
+<youtube-player class="fullscreenVid" *ngIf="fullscreenVideo" [videoId]="currentVideo.id" (ready)="savePlayer($event)" (change)="onStateChange($event)" [playerVars]="playerVars()"></youtube-player>
+<div *ngIf="fullscreenVideo && fullscreenOverlayMsg" class="overlay">
+  <h1>{{ fullscreenOverlayMsg }}</h1>
+</div>  
+
 <header>
   <div class="header-bar">
       <h1><span class="favicon-app"></span>YouTube-K by Gabs</h1>
@@ -25,7 +31,7 @@
       </div>
   </div>
 </header>
-<div id="app-container" [ngClass]="{'light-mode': !darkMode, 'menu-active': menuActive }">
+<div *ngIf="!fullscreenVideo" id="app-container" [ngClass]="{'light-mode': !darkMode, 'menu-active': menuActive }">   
   <div class="loading-bar inactive"></div>
   <input type="text" class="hide-input" #videoItemIDvalue />
   <div class="container">
@@ -33,17 +39,17 @@
         <div class="app app-services">
             <div class="app-head">
                 <div id="logo">
-                  <a routerLink="/home" class="logo-svg" title="Homepage"></a>
+                  <a routerLink="/home" class="logo-svg" title="YoutubeK"></a>
                   <small *ngIf="regionCode">{{ regionCode }}</small>
                 </div>
             </div>
             <div class="app-content">
               <nav>
                 <ul>
-                  <li><a routerLink="/home" routerLinkActive="is-active" title="Homepage"><span class="fa fa-home"></span>Home<span class="description">Trending videos and search</span></a></li>
-                  <li><a routerLink="/history" routerLinkActive="is-active" title="History page"><span class="fa fa-history"></span>History<span class="description">Recently played</span></a></li>
-                  <li><a routerLink="/about" routerLinkActive="is-active" title="About application page"><span class="fa fa-info-circle"></span>About<span class="description">All informations about the app</span></a></li>
-                  <li><a routerLink="/settings" routerLinkActive="is-active" title="Settings page"><span class="fa fa-gear"></span>Settings<span class="description">Change app settings</span></a></li>
+                  <li><a (click)="openMobileMenu()" routerLink="/home" routerLinkActive="is-active" title="Homepage"><span class="fa fa-home"></span>Home<span class="description">Trending karaoke hits and search</span></a></li>
+                  <li><a (click)="openMobileMenu()" routerLink="/history" routerLinkActive="is-active" title="History page"><span class="fa fa-history"></span>History<span class="description">Recently played</span></a></li>
+                  <li><a (click)="openMobileMenu()" routerLink="/about" routerLinkActive="is-active" title="About application page"><span class="fa fa-info-circle"></span>About<span class="description">YoutubeK and Gabs</span></a></li>
+                  <li><a (click)="openMobileMenu()" routerLink="/settings" routerLinkActive="is-active" title="Settings page"><span class="fa fa-gear"></span>Settings<span class="description">Change app settings</span></a></li>
                 </ul>
               </nav>
               <div id="playlist-video-list" class="video-list">
@@ -111,12 +117,15 @@
                       <button class="video-item-play" (click)="onClickPlaylist($event, i)">
                         <span class="fa " [ngClass]="currentPlaylistItem === i &&  currentState === 1 ? 'fa-pause' : 'fa-play'"></span>
                       </button>
-                      <button *ngIf="isAdmin" class="video-item-share" (click)="flagAsHighQuality(playlistVideo.id.videoId,playlistVideo.snippet.title,playlistVideo.snippet.channelId,playlistVideo.snippet.channelTitle)">
+                      <button *ngIf="allowHqFeedback" class="video-item-share" title="Tap if karaoke quality is great." (click)="flagAsQuality(playlistVideo.id.videoId,playlistVideo.snippet.title,playlistVideo.snippet.channelId,playlistVideo.snippet.channelTitle, 1)">
                         <span class="fa fa-heart"></span>
-                      </button>                        
+                      </button>   
                       <button class="video-item-share" (click)="onCopyVideoItemLink(i, 3)">
                         <span class="fa fa-share-alt"></span>
-                      </button>
+                      </button>                      
+                      <button *ngIf="allowHqFeedback" class="video-item-share" title="Tap if karaoke quality is poor." (click)="flagAsQuality(playlistVideo.id.videoId,playlistVideo.snippet.title,playlistVideo.snippet.channelId,playlistVideo.snippet.channelTitle, -1)">
+                        <span class="fa fa-thumbs-down"></span>
+                      </button>                                              
                       <button class="video-item-remove" (click)="removePlaylistItem(i, playlistVideo.seq)">
                         <span class="fa fa-times"></span>
                       </button>
@@ -133,7 +142,7 @@
             <div class="app-head">
                 <h2>{{AppTitle}}</h2>
                 <div class="settings">
-                    <p (click)="addPlaylistItem(0, 3)"><span class="fa fa-plus"></span>Add to playlist</p>
+                    <p (click)="toggleFullscreenVideo()"><span class="fa fa-expand"></span>Fullscreen</p>
                 </div>
             </div>
             <div class="app-content">

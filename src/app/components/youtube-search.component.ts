@@ -85,8 +85,11 @@ export class SearchComponent implements OnInit {
         this.youtube.searchVideo(form.searchInput).subscribe(
           result => {
             if (!this.searchForm.invalid) {
-              this.videos = result.items;              
-              this._shared.lastSearchedVideos = result.items;              
+              this.videos = result.items;
+              this._shared.lastSearchedVideos = this.videos; 
+              // check for HQ karaoke
+              this.isHqKaraoke(result.items);
+
             } else {
               this.getRelatedVideos();
             }
@@ -95,6 +98,19 @@ export class SearchComponent implements OnInit {
             console.log('error on search');
           }
         );
+    });
+  }
+
+  isHqKaraoke(items : any) {
+    var ids = items.map(a => a.id.videoId);
+    this.youtube.IsHighQualityVideo(ids).subscribe(res => {
+        items.forEach((karaoke, index) => {                    
+          if(res.indexOf(karaoke.id.videoId) !== -1) {
+            items[index].hq = true;
+          }
+        });  
+        this.videos = items; //uvidz;
+        this._shared.lastSearchedVideos = this.videos;                 
     });
   }
 
@@ -161,6 +177,8 @@ export class SearchComponent implements OnInit {
         result => {
           this.videos = result.items;              
           this._shared.lastSearchedVideos = result.items;   
+          // check for HQ karaoke
+          this.isHqKaraoke(result.items);
         },
         error => {
           console.log('error on related videos');

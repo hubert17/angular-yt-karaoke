@@ -2,7 +2,7 @@
   <form id="main-search" role="search" [formGroup]="searchForm" (ngSubmit)="onSubmit($event)" novalidate autocomplete="off">
       <div class="form-group">
         <div class="input-group">
-          <input type="text" autocomplete="off" id="input-search" class="form-control" placeholder="Search for karaoke by Title or Artists..." formControlName="searchInput">
+          <input type="text" autocomplete="off" id="input-search" class="form-control" placeholder="Search karaoke by Title or Artists..." formControlName="searchInput">
           <label for="input-search" class="search-icon"><span class="fa fa-search"></span></label>
           <button class="clear-button" (click)="clearSearch()"><span class="fa fa-times"></span></button>
         </div>
@@ -17,7 +17,15 @@
             }
           </style>
         <div id="search-video-list" class="video-list">
-          <div *ngFor="let video of videos; let i = index" [attr.data-index]="i" class="video-item">
+          <style scoped>
+            .video-item-hq {
+              border: 3px solid #7bf78c;
+              box-shadow: 0px 0px 15px #7bf78c;
+              -moz-box-shadow: 0px 0px 15px #7bf78c;
+              -webkit-box-shadow: 0px 0px 14px #7bf78c;
+            }
+          </style>
+          <div *ngFor="let video of videos; let i = index" [attr.data-index]="i" class="video-item" [ngClass]="{'video-item-hq': video.hq }">
             <div class="video-item-info">
               <div *ngIf="thumbnails" class="video-item-image" [ngStyle]="{'background-image': 'url(' + video.snippet.thumbnails.default.url +')'}"></div>
               <div class="video-item-content">

@@ -23,6 +23,7 @@ export class AppComponent implements OnInit {
 
   AppTitle = "YoutubeK by Gabs";
   roomId= 'public';
+  allowHqFeedback = false;
 
   notify: any;
   nw: any;
@@ -78,6 +79,9 @@ export class AppComponent implements OnInit {
 
   videoCurVolume = -1;
 
+  fullscreenVideo = false;
+  fullscreenOverlayMsg: string;
+
   _shared: any;
   _nwjs: any;
 
@@ -121,14 +125,19 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.checkMobile();
-    var roomId = (new URL(location.href)).searchParams.get("roomId");
-    if(roomId) {
-      this.roomId = roomId;
-      if(this.roomId == 'gabs') {        
-        this.isAdmin = true;
+      this.checkMobile();
+      var roomId = (new URL(location.href)).searchParams.get("roomId");
+      var allowHqFeedback = (new URL(location.href)).searchParams.get("hqfb");
+      if(roomId) {
+        this.roomId = roomId;
+        if(this.roomId == 'hewbhurtgabon') {        
+          this.isAdmin = true;
+          this.allowHqFeedback = true;
+        }
       }
-    }
+      if(allowHqFeedback == "1") {
+        this.allowHqFeedback = true;
+      }
 
       this._nwjs.init().subscribe((data) => {
         if (typeof data !== 'undefined') {
@@ -228,6 +237,17 @@ export class AppComponent implements OnInit {
     // this.shareLink = 'https://youtu.be/' + this.currentVideo.id;
     // this.getRelatedVideos();
     // this.findPlaylistItem();
+  }
+
+  toggleFullscreenVideo() {   
+    if(this.currentVideoObject.length != 0) {
+      this.fullscreenVideo = !this.fullscreenVideo;
+      alert("Kindly press F11 on your keyboard.");  
+      this.player.playVideo();
+      this.fullscreenOverlayMsg = "YoutubeK";
+    } else {
+      alert('Kindly start playing a song item.');
+    }
   }
 
   launchIntoFullscreen(element) {
@@ -354,10 +374,15 @@ export class AppComponent implements OnInit {
       this.fsVideosNext.subscribe(data => {     
         //console.log(JSON.stringify(data));
         if(data) {
-          this.titleService.setTitle(data.msgKar);  
+          this.titleService.setTitle(data.msgKar);            
+          this.fullscreenOverlayMsg = data.msgKar;
         }         
         setTimeout(() => {
           this.titleService.setTitle(this.AppTitle); 
+          this.fullscreenOverlayMsg = "www.bernardgabon.com/YoutubeK/" + this.roomId;          
+          setTimeout(() => {
+            this.fullscreenOverlayMsg = ""
+          }, 10000); 
         }, 30000);                                   
       });          
   }
@@ -463,9 +488,9 @@ export class AppComponent implements OnInit {
       a.click();
   }
 
-  flagAsHighQuality(id: string, title: string, channelId="", channelName = "") {
-    this.youtube.flagAsHighQuality(id, title, channelId, channelName, this.roomId).subscribe(res => {      
-      this._shared.triggerNotify(res.hq, 3000);
+  flagAsQuality(id: string, title: string, channelId="", channelName = "", hQ = 0) {
+    this.youtube.flagAsHighQuality(id, title, channelId, channelName, this.roomId, hQ).subscribe(res => {      
+      this._shared.triggerNotify(res.hq, 1000);
     });
   }
 

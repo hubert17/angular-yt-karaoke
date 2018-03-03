@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import { Subscription } from 'rxjs/Subscription';
 
-import { Router, ActivatedRoute, Params } from '@angular/router';
+//import { Router, ActivatedRoute, Params } from '@angular/router';
 
 @Injectable()
 export class SharedService {
@@ -40,8 +40,8 @@ export class SharedService {
     constructor(
         private youtube: YoutubeGetVideo,
         private http: Http,
-        private afs: AngularFirestore,
-        private route: ActivatedRoute
+        private afs: AngularFirestore
+        //private route: ActivatedRoute
     ) {}
 
     ngOnInit(){       
@@ -171,9 +171,8 @@ export class SharedService {
         this.historyVideos.unshift(data);
     }
 
-    //this.fsVideosCol.doc('Current').set({"Seq" : data.seq });
     addKaraokeFs(data: any, roomId: string) {        
-        var fsKarCount = this.afs.collection<any>('karaokeCount');
+        var fsKarCount = this.afs.collection<any>('karaokeStats');
         var fsKarCol = this.afs.collection<any>('karaoke');
 
         // this.getRoom().subscribe(data => {
@@ -183,13 +182,13 @@ export class SharedService {
             roomId = this.roomId
         }
      
-        fsKarCount.doc('1').ref.get().then(function(doc) {
+        fsKarCount.doc('_karaokeKey').ref.get().then(function(doc) {
             var newCount;
             if (doc.exists) {
-                newCount = doc.data().count + 1;
-                fsKarCount.doc('1').set({'count': newCount});        
+                newCount = doc.data().id + 1;
+                fsKarCount.doc('_karaokeKey').set({'id': newCount});        
             } else {
-                fsKarCount.doc('1').set({"count" : 1 });
+                fsKarCount.doc('_karaokeKey').set({"id" : 1 });
                 newCount = 1;
             }       
             //console.log("New kId: " + newCount);           
