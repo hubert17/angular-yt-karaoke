@@ -155,9 +155,10 @@ export class AppComponent implements OnInit {
       this.checkMobile();
       var roomId = (new URL(location.href)).searchParams.get("roomId");
       var allowHqFeedback = (new URL(location.href)).searchParams.get("hqfb");
+      var authAdmin = (new URL(location.href)).searchParams.get("auth");
       if(roomId) {
         this.roomId = roomId;
-        if(this.roomId == 'hewbhurtgabon') {        
+        if(authAdmin && authAdmin.length == 8) {        
           this.isAdmin = true;
           this.allowHqFeedback = true;
         }
@@ -225,6 +226,9 @@ export class AppComponent implements OnInit {
       'showinfo': 0,
       'playsinline': 1,
       'autoplay': 0,
+      'fs': 0,
+      'iv_load_policy': 3,
+      'modestbranding': 1,
       'loop': 0,
       'origin': 'https://www.youtube.com',
       'rel': 0
