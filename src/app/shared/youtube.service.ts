@@ -68,6 +68,16 @@ export class YoutubeGetVideo {
         return this.http.get(url).map(response => response.json());   
     }
 
+    sendRoomActivity(id: string) {
+        var url = '/youtube/RoomActivity?id=' + id;
+        return this.http.get(url).map(response => response.json());   
+    }    
+
+    isMaster(id: string, token: string) {
+        var url = '/youtube/IsMaster?Id=' + id + '&token=' + token;
+        return this.http.get(url).map(response => response.json());   
+    }    
+
     flagAsHighQuality(id: string, title: string, channelId = "", channelName = "", flagby = "", hQ = 0) {
         var url = '/fixembed?id='
         + id + '&t=' + title + '&cId=' + channelId + '&c=' + channelName + '&u=' + flagby + '&hq=' + hQ;

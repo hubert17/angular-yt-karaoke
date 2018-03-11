@@ -158,10 +158,12 @@ export class AppComponent implements OnInit {
       var authAdmin = (new URL(location.href)).searchParams.get("auth");
       if(roomId) {
         this.roomId = roomId;
-        if(authAdmin && authAdmin.length == 8) {        
-          this.isAdmin = true;
-          this.allowHqFeedback = true;
-        }
+        this.youtube.isMaster(roomId, authAdmin).subscribe(res => {
+          if(res.isMaster === 1) {
+            this.isAdmin = true;
+            this.allowHqFeedback = true;          
+          }
+        });
       }
       if(allowHqFeedback == "1") {
         this.allowHqFeedback = true;
@@ -385,8 +387,7 @@ export class AppComponent implements OnInit {
           } else if (data.state === "play"){
             console.log("Remote State: PLAY video");
             if(this.isDesktop) {
-              this.player.playVideo(); 
-              //this.launchIntoFullscreen(this.player);           
+              this.player.playVideo();                       
             } else {
               this.currentState = 1;
             }           
@@ -602,6 +603,9 @@ export class AppComponent implements OnInit {
       this._shared.addHistoryVideo(data);      
       if(this.isDesktop) {
         this.player.loadVideoById(this.currentVideo.id);
+        this.youtube.sendRoomActivity(this.roomId).subscribe(res => {
+          console.log('RoomActivity: ' + res);
+        });
       } else {
         this.currentState = 1;
       }   
