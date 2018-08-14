@@ -1,0 +1,56 @@
+/* You can add global styles to this file, and also import other style files */
+
+
+youtube-player.fullscreenVid > iframe {
+    /* position: fixed; */
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+    background-size: cover;
+    }
+
+    /*****************************/
+
+    .overlay {
+        width: auto;
+        max-width: 500px;
+        height: auto;
+        background: -moz-linear-gradient(left, rgba(0,0,0,0.65) 38%, rgba(0,0,0,0.65) 41%, rgba(0,0,0,0.65) 44%, rgba(0,0,0,0.65) 45%, rgba(0,0,0,0.65) 47%, rgba(0,0,0,0) 100%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(left, rgba(0,0,0,0.65) 38%,rgba(0,0,0,0.65) 41%,rgba(0,0,0,0.65) 44%,rgba(0,0,0,0.65) 45%,rgba(0,0,0,0.65) 47%,rgba(0,0,0,0) 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to right, rgba(0,0,0,0.65) 38%,rgba(0,0,0,0.65) 41%,rgba(0,0,0,0.65) 44%,rgba(0,0,0,0.65) 45%,rgba(0,0,0,0.65) 47%,rgba(0,0,0,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        display: block;
+        position: absolute;
+        top: 5%;
+        left: -5%;
+        padding: 0 50px 0 120px;
+      }
+
+      .overlay h1 {
+        text-align: left;
+        color: #fff;
+        font-family: inherit;
+      }
+
+      .overlay p{
+        text-align: center;
+        width: 80%;
+        margin: 0 auto;
+        color: #fff;
+        font-family: inherit;
+        margin-bottom: 20px;
+      }
+
+      .overlay a {
+        color: #fff;
+      }
+
+      .orange {
+        text-decoration: none;
+      }
+      p a.orange {
+        color: #f27950;
+      }

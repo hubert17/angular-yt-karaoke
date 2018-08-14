@@ -1,0 +1,22 @@
+2018-02-21 14:33:39.699 C:\Users\DRIVE_D\My Documents\_GitHub\_YTKaraokeGabs\YoutubeK\YoutubeK\wwwroot\Logs\log-20180221.txt is created.
+2018-02-21 18:32:36.733 [INFO]    [HTTPRESPONSE: {"replaceId":"","replaceMsg":"Removing playback protection for 1"}
+2018-02-21 18:32:57.717 [INFO]    [HTTPRESPONSE: {"replaceId":"","replaceMsg":"Removing playback protection for 1"}
+2018-02-21 18:33:06.064 [INFO]    [HTTPRESPONSE: {"replaceId":"","replaceMsg":"Removing playback protection for 1"}
+2018-02-21 18:44:53.567 [INFO]    [HTTPRESPONSE: {"replaceId":"","replaceMsg":"Removing playback protection for CB25C4F1"}
+2018-02-21 18:45:05.932 [INFO]    [HTTPRESPONSE: {"replaceId":"","replaceMsg":"Removing playback protection for F12F11F5"}
+2018-02-21 19:59:41.557 [INFO]    Welcome to Youtube Downloader!
+2018-02-21 19:59:41.558 [INFO]    Easily save your favorite videos from YouTube.
+2018-02-21 19:59:43.284 [INFO]    Saving video...
+2018-02-21 20:00:21.915 [INFO]    Done saving video.
+2018-02-21 20:01:11.291 [INFO]    Welcome to Youtube Downloader!
+2018-02-21 20:01:11.292 [INFO]    Easily save your favorite videos from YouTube.
+2018-02-21 20:01:12.915 [INFO]    Saving video...
+2018-02-21 20:01:34.009 [INFO]    Done saving video.
+2018-02-21 20:04:29.322 [INFO]    Welcome to Youtube Downloader!
+2018-02-21 20:04:29.330 [INFO]    Easily save your favorite videos from YouTube.
+2018-02-21 20:04:30.921 [INFO]    Saving video...
+2018-02-21 20:04:45.909 [INFO]    Done saving video.
+2018-02-21 20:07:46.031 [INFO]    Welcome to Youtube Downloader!
+2018-02-21 20:07:46.033 [INFO]    Easily save your favorite videos from YouTube.
+2018-02-21 20:07:47.658 [INFO]    Saving video...
+2018-02-21 20:08:09.671 [INFO]    Done saving video.

@@ -1,0 +1,4 @@
+2018-02-27 04:24:30.456 C:\Users\DRIVE_D\My Documents\_GitHub\_YTKaraokeGabs\YoutubeK\YoutubeK\wwwroot\Logs\log-20180227.txt is created.
+2018-02-27 05:14:14.022 [INFO]    Downloading video...
+2018-02-27 05:14:16.905 [ERROR]   Error in retrieving video and file write.
+2018-02-27 05:14:17.004 [WARNING] VideoId has already been replaced. Uploading cancelled.

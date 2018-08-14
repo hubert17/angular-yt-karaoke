@@ -1,0 +1,349 @@
+﻿
+@{
+    Layout = null;
+}
+
+
+<!doctype html>
+<html class="no-js" lang="">
+<!--
+    Copyright quead 2017 inspired from youtube
+-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>YoutubeK - Your very social karaoke app.</title>
+    <meta name="YoutubeK utilizes the vast library of karaoke videos in Youtube. Unlike Youtube's built-in Watch Later function, Youtube-K doesn't ask for Google or any login credential. All party goers can simply queue their karaoke titles with their phone navigating to the shared URL, that is without even sharing your internet or wifi!" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link href="//fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/normalize.min.css">
+    <link rel="stylesheet" href="css/logo.css">
+    <link rel="stylesheet" href="css/main.css">
+
+    <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+</head>
+<body>
+    <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <main>
+        <div class="box box-intro" id="box-intro">
+            <div class="box-content">
+                <div class="col-1">
+                    <div class="box-heading">
+                        <div class="ng-logo">
+                            <div class="bg-left"></div>
+                            <div class="bg-right"></div>
+                            <span class="fa fa-youtube-play"></span>
+                        </div>
+                        <h2><span class="light">Angular</span> YouTube Player <span class="color-main"><small>v</small>2.2</span> <span class="light"></span></h2>
+                        <p>Built with Angular 4+, Typescript, SCSS, NWjs.</p>
+                    </div>
+                    <div class="helpful-buttons">
+                        <a href="https://www.youtube.com/watch?v=KB803dWQM-o" class="btn btn-secondary" target="_blank"><span class="fa fa-youtube-play"></span>Check video presentation</a>
+                        <a href="https://github.com/quead/angular2-yt-player" class="btn btn-secondary" target="_blank"><span class="fa fa-github"></span>View on GitHub</a>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="intro-presentation-1">
+                        <div class="img-main">
+                            <img src="img/img_main.png" />
+                        </div>
+                        <p>Available on</p>
+                        <div class="buttons">
+                            <a href="/demo" class="btn btn-secondary"><span class="fa fa-globe"></span>Web App</a>
+                            <a href="http://noxien.net/quead/yt-app-v2.0.0-win-x64.zip" class="btn btn-secondary" target="_blank"><span class="fa fa-windows"></span>Windows x64</a>
+                            <a href="http://noxien.net/quead/yt-app-v2.0.0-linux-x64.zip" class="btn btn-secondary" target="_blank"><span class="fa fa-linux"></span>Linux x64</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="wave-container">
+                    <div class="wave wave-one"></div>
+                    <div class="wave wave-two"></div>
+                    <div class="wave wave-three"></div>
+                </div>
+                <div class="scroll-downs">
+                    <div class="mousey">
+                        <div class="scroller"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box box-1" id="box-1">
+            <div class="container">
+                <div class="box-content">
+                    <div class="desc desc-left">
+                        <span class="pointer pointer-right"></span>
+                        <h2>Playlist</h2>
+                        <p>Create your own playlist.</p>
+                        <div class="playlist-presentation-1">
+                            <div class="icons">
+                                <div class="icon-item">
+                                    <span class="icon">
+                                        <span class="fa fa-play"></span>
+                                    </span>
+                                    <p>Play</p>
+                                </div>
+                                <div class="icon-item">
+                                    <span class="icon">
+                                        <span class="fa fa-share-alt"></span>
+                                    </span>
+                                    <p>Share link</p>
+                                </div>
+                                <div class="icon-item">
+                                    <span class="icon">
+                                        <span class="fa fa-plus"></span>
+                                    </span>
+                                    <p>Add to playlist</p>
+                                </div>
+                                <div class="icon-item">
+                                    <span class="icon">
+                                        <span class="fa fa-minus"></span>
+                                    </span>
+                                    <p>Remove from playlist</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="img-shadow">
+                        <img src="img/img_about_1.png" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box box-2" id="box-2">
+            <div class="container">
+                <div class="box-content">
+                    <div class="img-shadow">
+                        <img src="img/img_about_2.png" />
+                    </div>
+                    <div class="desc desc-right">
+                        <span class="pointer pointer-left"></span>
+                        <h2>Trending</h2>
+                        <p>Check popular videos from three different countries by change country from settings.</p>
+                        <p>Available countries</p>
+                        <div class="trending-presentation-1">
+                            <div class="icons">
+                                <div class="icon-item">
+                                    <span class="icon">
+                                        <img src="img/flag-US.png">
+                                    </span>
+                                    <p>United States</p>
+                                </div>
+                                <div class="icon-item">
+                                    <span class="icon">
+                                        <img src="img/flag-RO.png">
+                                    </span>
+                                    <p>Romania</p>
+                                </div>
+                                <div class="icon-item">
+                                    <span class="icon">
+                                        <img src="img/flag-GB.png">
+                                    </span>
+                                    <p>Great Britain</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box box-3" id="box-3">
+            <div class="container">
+                <div class="box-content">
+                    <div class="img-shadow">
+                        <img src="img/img_about_3.png" />
+                    </div>
+                    <div class="desc desc-right">
+                        <span class="pointer pointer-left"></span>
+                        <h2>History</h2>
+                        <p>Quick view of your recently played videos.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box box-4" id="box-4">
+            <div class="container">
+                <div class="box-content">
+                    <div class="desc desc-left">
+                        <span class="pointer pointer-right"></span>
+                        <h2>Updates</h2>
+                        <p><span class="fa fa-circle-o-notch fa-spin fa-fw"></span> The desktop application will automatically update to latest version.</p>
+                    </div>
+                    <div class="img-shadow">
+                        <img src="img/img_about_4.png" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box box-7" id="box-7">
+            <div class="container">
+                <div class="box-heading">
+                    <h2>Back in time</h2>
+                    <p>Previous versions of Angular YouTube Player</p>
+                </div>
+                <div class="box-content">
+                    <div class="owl-carousel">
+                        <div class="item">
+                            <img src="img/v/02.png" />
+                            <p class="item-description">v0.2</p>
+                        </div>
+                        <div class="item">
+                            <img src="img/v/10.png" />
+                            <p class="item-description">v1.0</p>
+                        </div>
+                        <div class="item">
+                            <img src="img/v/11.png" />
+                            <p class="item-description">v1.1</p>
+                        </div>
+                        <div class="item">
+                            <img src="img/v/12.png" />
+                            <p class="item-description">v1.2</p>
+                        </div>
+                        <div class="item">
+                            <img src="img/v/14.png" />
+                            <p class="item-description">v1.4</p>
+                        </div>
+                        <div class="item">
+                            <img src="img/v/19.png" />
+                            <p class="item-description">v1.9</p>
+                        </div>
+                        <div class="item">
+                            <img src="img/v/19.2.png" />
+                            <p class="item-description">v1.9.2</p>
+                        </div>
+                        <div class="item">
+                            <img src="img/v/20.png" />
+                            <p class="item-description">v2.0</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box box-5" id="box-5">
+            <div id="version-1" class="version black-version" style="background-color: black;">
+                <div class="container">
+                    <div class="box-heading">
+                        <h2>Theme</h2>
+                        <p>You can switch between dark theme and white theme.</p>
+                    </div>
+                    <div class="box-content">
+                        <div class="img-shadow">
+                            <img src="img/img_about_5.png" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="version-2" class="version white-version">
+                <div class="container">
+                    <div class="box-heading">
+                        <h2>Theme</h2>
+                        <p>You can switch between white theme and dark theme.</p>
+                    </div>
+                    <div class="box-content">
+                        <div class="img-shadow">
+                            <img src="img/img_about_6.png" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box box-timeline" id="box-6">
+            <div class="box-heading">
+                <h2>Timeline</h2>
+                <p class="description">The important project milestones. April 2017 - Present</p>
+            </div>
+            <div class="timeline-container">
+                <div class="item">
+                    <div id="timeline">
+                        <div>
+                            <section class="year">
+                                <h3>2017</h3>
+                                <section>
+                                    <h4>February</h4>
+                                    <ul>
+                                        <li>Finding a way to learn Angular 2 and Typescript.</li>
+                                        <li>Idea, concept.</li>
+                                    </ul>
+                                </section>
+                                <section>
+                                    <h4>March</h4>
+                                    <ul>
+                                        <li>Starting coding.</li>
+                                    </ul>
+                                </section>
+                                <section>
+                                    <h4>April</h4>
+                                    <ul>
+                                        <li>Published first sample to <a href="https://github.com/quead/angular2-yt-player" title="GitHub of angular2 youtube player project" target="_blank">GitHub</a>.</li>
+                                    </ul>
+                                </section>
+                                <section>
+                                    <h4>May</h4>
+                                    <ul>
+                                        <li>Released first version of the app and the status of the project was set pre-alpha.</li>
+                                    </ul>
+                                </section>
+                                <section>
+                                    <h4>July</h4>
+                                    <ul>
+                                        <li>Introducing trending videos from three countries (US, UK, RO).</li>
+                                        <li>Added settings page.</li>
+                                        <li>Released v1.2, a major update of new features and design prepared for v2.0. <a href="https://github.com/quead/angular2-yt-player#changelog" title="Changelog of angular2 youtube player" target="_blank">Changelog</a></li>
+                                    </ul>
+                                </section>
+                                <section>
+                                    <h4>August</h4>
+                                    <ul>
+                                        <li>Added history of your watched videos.</li>
+                                        <li>Released v1.6, a major update where I have added several of new details about current and trending videos and more <a href="https://github.com/quead/angular2-yt-player#changelog" title="Changelog of angular2 youtube player" target="_blank">see changelog.</a></li>
+                                    </ul>
+                                </section>
+                                <section>
+                                    <h4>September</h4>
+                                    <ul>
+                                        <li>Changed project status to alpha by implementing all things from 1.0 to 1.9.</li>
+                                    </ul>
+                                </section>
+                                <section>
+                                    <h4>October</h4>
+                                    <ul>
+                                        <li>Launched version 2.0 of the app which is compatible with Windows, macOS, Linux on x64 architecture.</li>
+                                        <li>Changed project status to beta by creating desktop app.</li>
+                                    </ul>
+                                </section>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box box-last">
+            <div class="container">
+                <div class="box-heading">
+                    <span class="fa fa-envelope-open-o fa-3x"></span>
+                    <h2>Contact <span class="light">me</span></h2>
+                    <p class="description">If you want to contribute at the project you can ping me.</p>
+                </div>
+                <div class="helpful-buttons">
+                    <a href="mailto:queadx@gmail.com" class="btn btn-secondary" target="_blank"><span class="fa fa-envelope"></span>E-mail Me</a>
+                    <a href="https://github.com/quead/" class="btn btn-secondary" target="_blank"><span class="fa fa-github"></span>Github</a>
+                    <a href="https://linkedin.com/in/quead/" class="btn btn-secondary" target="_blank"><span class="fa fa-linkedin-square"></span>LinkedIn</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/owl.carousel.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/debug.addIndicators.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

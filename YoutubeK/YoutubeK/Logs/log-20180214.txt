@@ -1,0 +1,1 @@
+﻿2018-02-14 05:23:37.698 C:\Users\DRIVE_D\My Documents\_GitHub\angular2-yt-player-master\AngularAspNetCoreSignalR\Logs\log-20180214.txt is created.

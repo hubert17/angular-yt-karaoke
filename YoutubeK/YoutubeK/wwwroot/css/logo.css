@@ -1,0 +1,154 @@
+
+.ng-logo {
+  position: relative;
+  width: 60px;
+  height: 63px;
+  display: inline-block;
+}
+.ng-logo .fa {
+  position: absolute;
+  top: 50%;
+  z-index: 1;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+  line-height: 18px;
+}
+.ng-logo [class^=bg] {
+  position: absolute;
+  width: 50%;
+  height: 61%;
+  top: 17%;
+}
+.ng-logo [class^=bg]:before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: -28%;
+  right: 0;
+  width: 100%;
+  height: 28%;
+}
+.ng-logo [class^=bg]:after {
+  content: '';
+  display: block;
+  position: absolute;
+  bottom: -36%;
+  width: 84%;
+  height: 36%;
+}
+.ng-logo .bg-left {
+  right: 50%;
+  background: -webkit-linear-gradient(7deg, transparent 14%, red 0%);
+  background: linear-gradient(83deg, transparent 14%, red 0%);
+}
+.ng-logo .bg-left:before {
+  background: -webkit-linear-gradient(left top, transparent 50%, red 0%);
+  background: linear-gradient(to right bottom, transparent 50%, red 0%);
+}
+.ng-logo .bg-left:after {
+  right: 0;
+  background: -webkit-linear-gradient(left bottom, transparent 50%, red 0%);
+  background: linear-gradient(to right top, transparent 50%, red 0%);
+}
+.ng-logo .bg-right {
+  left: 50%;
+  background: -webkit-linear-gradient(173deg, transparent 14%, #DF0000 0%);
+  background: linear-gradient(-83deg, transparent 14%, #DF0000 0%);
+}
+.ng-logo .bg-right:before {
+  background: -webkit-linear-gradient(right top, transparent 50%, #DF0000 0%);
+  background: linear-gradient(to left bottom, transparent 50%, #DF0000 0%);
+}
+.ng-logo .bg-right:after {
+  left: 0;
+  background: -webkit-linear-gradient(right bottom, transparent 50%, #DF0000 0%);
+  background: linear-gradient(to left top, transparent 50%, #DF0000 0%);
+}
+.ng-logo.w-border .bg-left {
+  background: -webkit-linear-gradient(7deg, transparent 14%, #B3B3B3 0%);
+  background: linear-gradient(83deg, transparent 14%, #B3B3B3 0%);
+}
+.ng-logo.w-border .bg-left:before {
+  background: -webkit-linear-gradient(left top, transparent 50%, #B3B3B3 0%);
+  background: linear-gradient(to right bottom, transparent 50%, #B3B3B3 0%);
+}
+.ng-logo.w-border .bg-left:after {
+  background: -webkit-linear-gradient(left bottom, transparent 50%, #B3B3B3 0%);
+  background: linear-gradient(to right top, transparent 50%, #B3B3B3 0%);
+}
+.ng-logo.w-border .bg-right {
+  background: -webkit-linear-gradient(173deg, transparent 14%, #B3B3B3 0%);
+  background: linear-gradient(-83deg, transparent 14%, #B3B3B3 0%);
+}
+.ng-logo.w-border .bg-right:before {
+  background: -webkit-linear-gradient(right top, transparent 50%, #B3B3B3 0%);
+  background: linear-gradient(to left bottom, transparent 50%, #B3B3B3 0%);
+}
+.ng-logo.w-border .bg-right:after {
+  background: -webkit-linear-gradient(right bottom, transparent 50%, #B3B3B3 0%);
+  background: linear-gradient(to left top, transparent 50%, #B3B3B3 0%);
+}
+.ng-logo.w-border .inner {
+  position: absolute;
+  top: 5%;
+  right: 5%;
+  bottom: 5%;
+  left: 5%;
+}
+.ng-logo.w-border .inner .bg-left {
+  background: -webkit-linear-gradient(7deg, transparent 14%, #DD1B16 0%);
+  background: linear-gradient(83deg, transparent 14%, #DD1B16 0%);
+}
+.ng-logo.w-border .inner .bg-left:before {
+  background: -webkit-linear-gradient(left top, transparent 50%, #DD1B16 0%);
+  background: linear-gradient(to right bottom, transparent 50%, #DD1B16 0%);
+}
+.ng-logo.w-border .inner .bg-left:after {
+  background: -webkit-linear-gradient(left bottom, transparent 50%, #DD1B16 0%);
+  background: linear-gradient(to right top, transparent 50%, #DD1B16 0%);
+}
+.ng-logo.w-border .inner .bg-right {
+  background: -webkit-linear-gradient(173deg, transparent 14%, #A6120D 0%);
+  background: linear-gradient(-83deg, transparent 14%, #A6120D 0%);
+}
+.ng-logo.w-border .inner .bg-right:before {
+  background: -webkit-linear-gradient(right top, transparent 50%, #A6120D 0%);
+  background: linear-gradient(to left bottom, transparent 50%, #A6120D 0%);
+}
+.ng-logo.w-border .inner .bg-right:after {
+  background: -webkit-linear-gradient(right bottom, transparent 50%, #A6120D 0%);
+  background: linear-gradient(to left top, transparent 50%, #A6120D 0%);
+}
+.ng-logo [class^=a] {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+}
+.ng-logo [class^=a]:after {
+  content: 'A';
+  display: block;
+  font-size: 16rem;
+  font-weight: 700;
+  text-align: center;
+  font-family: 'Josefin Sans';
+  position: absolute;
+  top: 13%;
+  width: 200%;
+}
+.ng-logo .a-left {
+  right: 50%;
+}
+.ng-logo .a-left:after {
+  left: 0;
+  color: #F2F2F2;
+}
+.ng-logo .a-right {
+  left: 50%;
+}
+.ng-logo .a-right:after {
+  right: 0;
+  color: #B3B3B3;
+}

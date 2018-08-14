@@ -1,0 +1,9 @@
+2018-03-11 00:23:20.674 C:\Users\DRIVE_D\My Documents\_GitHub\_YTKaraokeGabs\YoutubeK\YoutubeK\wwwroot\Logs\log-20180311.txt is created.
+2018-03-11 00:26:39.801 [ERROR]   Index and length must refer to a location within the string.
+Parameter name: length
+2018-03-11 00:26:58.741 [ERROR]   Index and length must refer to a location within the string.
+Parameter name: length
+2018-03-11 00:31:00.271 [ERROR]   Index and length must refer to a location within the string.
+Parameter name: length
+2018-03-11 05:17:05.243 [ERROR]   Index and length must refer to a location within the string.
+Parameter name: length

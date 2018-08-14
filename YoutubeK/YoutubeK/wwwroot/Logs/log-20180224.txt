@@ -1,0 +1,161 @@
+2018-02-24 00:00:15.414 C:\Users\DRIVE_D\My Documents\_GitHub\_YTKaraokeGabs\YoutubeK\YoutubeK\wwwroot\Logs\log-20180224.txt is created.
+2018-02-24 00:00:39.170 [INFO]    Welcome to Youtube Downloader!
+2018-02-24 00:00:39.223 [INFO]    Downloading video...
+2018-02-24 00:00:55.834 [INFO]    Done saving video.
+2018-02-24 00:00:55.970 [INFO]    Uploading C:\Users\DRIVE_D\My Documents\_GitHub\_YTKaraokeGabs\YoutubeK\YoutubeK\wwwroot\Videos\XpXe2mXmhp0.mp4...
+2018-02-24 00:01:31.324 [INFO]    Still uploading... 1048576 bytes sent.
+2018-02-24 00:02:02.340 [INFO]    Still uploading... 2097152 bytes sent.
+2018-02-24 00:02:32.014 [INFO]    Still uploading... 3145728 bytes sent.
+2018-02-24 00:05:12.887 [INFO]    Welcome to Youtube Downloader!
+2018-02-24 00:05:13.080 [INFO]    Downloading video...
+2018-02-24 00:05:13.209 [INFO]    Welcome to Youtube Downloader!
+2018-02-24 00:05:13.210 [INFO]    Downloading video...
+2018-02-24 00:05:42.545 [INFO]    Done saving video.
+2018-02-24 00:05:42.742 [INFO]    Uploading C:\Users\DRIVE_D\My Documents\_GitHub\_YTKaraokeGabs\YoutubeK\YoutubeK\wwwroot\Videos\XpXe2mXmhp0.mp4...
+2018-02-24 00:06:02.972 [INFO]    Welcome to Youtube Downloader!
+2018-02-24 00:06:02.974 [INFO]    Downloading video...
+2018-02-24 00:06:04.159 [INFO]    Welcome to Youtube Downloader!
+2018-02-24 00:06:04.161 [INFO]    Downloading video...
+2018-02-24 00:06:32.678 [INFO]    Still uploading... 1048576 bytes sent.
+2018-02-24 00:07:19.320 [INFO]    Still uploading... 2097152 bytes sent.
+2018-02-24 00:07:26.698 [INFO]    Welcome to Youtube Downloader!
+2018-02-24 00:07:26.700 [INFO]    Downloading video...
+2018-02-24 00:07:26.698 [INFO]    Welcome to Youtube Downloader!
+2018-02-24 00:07:26.704 [INFO]    Downloading video...
+2018-02-24 00:27:30.069 [INFO]    Downloading video...
+2018-02-24 00:27:30.176 [INFO]    Downloading video...
+2018-02-24 00:27:30.571 [INFO]    Valid Google credentials. Successfully authorized.
+2018-02-24 00:27:30.582 [INFO]    Valid Google credentials. Successfully authorized.
+2018-02-24 00:27:30.596 [INFO]    Uploading C:\Users\DRIVE_D\My Documents\_GitHub\_YTKaraokeGabs\YoutubeK\YoutubeK\wwwroot\Videos\XpXe2mXmhp0.mp4...
+2018-02-24 00:27:55.760 [INFO]    Retrieving Google credential...
+2018-02-24 00:27:55.768 [INFO]    Valid Google credentials. Successfully authorized.
+2018-02-24 00:27:55.770 [INFO]    Uploading C:\Users\DRIVE_D\My Documents\_GitHub\_YTKaraokeGabs\YoutubeK\YoutubeK\wwwroot\Videos\XpXe2mXmhp0.mp4...
+2018-02-24 00:27:59.576 [INFO]    Done saving video.
+2018-02-24 00:31:58.155 [INFO]    Downloading video...
+2018-02-24 00:31:58.290 [INFO]    Downloading video...
+2018-02-24 00:32:24.043 [INFO]    Done saving video.
+2018-02-24 00:32:24.097 [INFO]    Retrieving Google credential...
+2018-02-24 00:32:24.237 [INFO]    Valid Google credentials. Successfully authorized.
+2018-02-24 00:32:24.260 [INFO]    Uploading C:\Users\DRIVE_D\My Documents\_GitHub\_YTKaraokeGabs\YoutubeK\YoutubeK\wwwroot\Videos\XpXe2mXmhp0.mp4...
+2018-02-24 00:33:02.685 [INFO]    Still uploading... 1048576 bytes sent.
+2018-02-24 00:33:05.482 [INFO]    Downloading video...
+2018-02-24 00:33:34.055 [INFO]    Still uploading... 2097152 bytes sent.
+2018-02-24 00:34:05.226 [INFO]    Still uploading... 3145728 bytes sent.
+2018-02-24 00:34:36.841 [INFO]    Still uploading... 4194304 bytes sent.
+2018-02-24 00:35:09.728 [INFO]    Still uploading... 5242880 bytes sent.
+2018-02-24 00:35:41.883 [INFO]    Still uploading... 6291456 bytes sent.
+2018-02-24 00:36:10.076 [INFO]    Still uploading... 7340032 bytes sent.
+2018-02-24 00:36:19.607 [INFO]    Video id 'jOjAxqVmWDM' was successfully uploaded.
+2018-02-24 00:36:23.159 [INFO]    [HttpNotify]: Added replaceId jOjAxqVmWDM to Id XpXe2mXmhp0 Ed Sheeran - Photograph (Karaoke Version) [YoutubeK]
+2018-02-24 01:30:18.492 [INFO]    Downloading video...
+2018-02-24 01:30:18.750 [INFO]    Downloading video...
+2018-02-24 01:30:45.836 [INFO]    Done saving video.
+2018-02-24 01:30:45.902 [INFO]    Retrieving Google credential...
+2018-02-24 01:30:45.949 [INFO]    Valid Google credentials. Successfully authorized.
+2018-02-24 01:30:45.965 [INFO]    Uploading C:\Users\DRIVE_D\My Documents\_GitHub\_YTKaraokeGabs\YoutubeK\YoutubeK\wwwroot\Videos\1JWWkuLrtro.mp4...
+2018-02-24 01:30:47.075 [ERROR]   An error prevented the upload from completing. Ex: Google.Apis.Auth.OAuth2.Responses.TokenResponseException: Error:"invalid_grant", Description:"Token has been expired or revoked.", Uri:""
+   at Google.Apis.Auth.OAuth2.Requests.TokenRequestExtenstions.<ExecuteAsync>d__0.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Google.Apis.Auth.OAuth2.Flows.AuthorizationCodeFlow.<FetchTokenAsync>d__35.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at Google.Apis.Auth.OAuth2.Flows.AuthorizationCodeFlow.<FetchTokenAsync>d__35.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Google.Apis.Auth.OAuth2.Flows.AuthorizationCodeFlow.<RefreshTokenAsync>d__31.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Google.Apis.Auth.OAuth2.UserCredential.<RefreshTokenAsync>d__17.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Google.Apis.Auth.OAuth2.UserCredential.<GetAccessTokenForRequestAsync>d__16.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Google.Apis.Auth.OAuth2.UserCredential.<InterceptAsync>d__13.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Google.Apis.Http.ConfigurableMessageHandler.<SendAsync>d__59.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable`1.ConfiguredTaskAwaiter.GetResult()
+   at System.Net.Http.HttpClient.<FinishSendAsyncBuffered>d__58.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Google.Apis.Upload.ResumableUpload`1.<InitiateSessionAsync>d__25.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Google.Apis.Upload.ResumableUpload.<UploadAsync>d__70.MoveNext()
+2018-02-24 01:30:52.011 [INFO]    Done saving video.
+2018-02-24 01:30:52.015 [INFO]    Retrieving Google credential...
+2018-02-24 01:30:52.016 [INFO]    Valid Google credentials. Successfully authorized.
+2018-02-24 01:30:52.017 [INFO]    Uploading C:\Users\DRIVE_D\My Documents\_GitHub\_YTKaraokeGabs\YoutubeK\YoutubeK\wwwroot\Videos\1JWWkuLrtro.mp4...
+2018-02-24 01:30:52.434 [ERROR]   An error prevented the upload from completing. Ex: Google.Apis.Auth.OAuth2.Responses.TokenResponseException: Error:"invalid_grant", Description:"Token has been expired or revoked.", Uri:""
+   at Google.Apis.Auth.OAuth2.Requests.TokenRequestExtenstions.<ExecuteAsync>d__0.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Google.Apis.Auth.OAuth2.Flows.AuthorizationCodeFlow.<FetchTokenAsync>d__35.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at Google.Apis.Auth.OAuth2.Flows.AuthorizationCodeFlow.<FetchTokenAsync>d__35.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Google.Apis.Auth.OAuth2.Flows.AuthorizationCodeFlow.<RefreshTokenAsync>d__31.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Google.Apis.Auth.OAuth2.UserCredential.<RefreshTokenAsync>d__17.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Google.Apis.Auth.OAuth2.UserCredential.<GetAccessTokenForRequestAsync>d__16.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Google.Apis.Auth.OAuth2.UserCredential.<InterceptAsync>d__13.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Google.Apis.Http.ConfigurableMessageHandler.<SendAsync>d__59.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable`1.ConfiguredTaskAwaiter.GetResult()
+   at System.Net.Http.HttpClient.<FinishSendAsyncBuffered>d__58.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Google.Apis.Upload.ResumableUpload`1.<InitiateSessionAsync>d__25.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Google.Apis.Upload.ResumableUpload.<UploadAsync>d__70.MoveNext()
+2018-02-24 01:33:04.583 [INFO]    Downloading video...
+2018-02-24 01:33:04.814 [INFO]    Downloading video...
+2018-02-24 01:33:06.699 [INFO]    Done saving video.
+2018-02-24 01:33:06.748 [INFO]    Done saving video.
+2018-02-24 01:33:06.822 [INFO]    Retrieving Google credential...
+2018-02-24 01:33:06.825 [INFO]    Retrieving Google credential...
+2018-02-24 01:33:23.150 [INFO]    Valid Google credentials. Successfully authorized.
+2018-02-24 01:33:23.170 [INFO]    Uploading C:\Users\DRIVE_D\My Documents\_GitHub\_YTKaraokeGabs\YoutubeK\YoutubeK\wwwroot\Videos\1JWWkuLrtro.mp4...
+2018-02-24 01:34:02.373 [INFO]    Still uploading... 1048576 bytes sent.
+2018-02-24 01:34:30.111 [INFO]    Retrieving Google credential...
+2018-02-24 01:34:30.115 [INFO]    Valid Google credentials. Successfully authorized.
+2018-02-24 01:34:30.118 [INFO]    Uploading C:\Users\DRIVE_D\My Documents\_GitHub\_YTKaraokeGabs\YoutubeK\YoutubeK\wwwroot\Videos\1JWWkuLrtro.mp4...
+2018-02-24 01:34:37.980 [INFO]    Still uploading... 2097152 bytes sent.
+2018-02-24 01:35:09.183 [INFO]    Still uploading... 3145728 bytes sent.
+2018-02-24 01:35:39.646 [INFO]    Still uploading... 4194304 bytes sent.
+2018-02-24 01:35:45.146 [INFO]    Retrieving Google credential...
+2018-02-24 01:35:45.148 [INFO]    Valid Google credentials. Successfully authorized.
+2018-02-24 01:35:45.149 [INFO]    Uploading C:\Users\DRIVE_D\My Documents\_GitHub\_YTKaraokeGabs\YoutubeK\YoutubeK\wwwroot\Videos\1JWWkuLrtro.mp4...

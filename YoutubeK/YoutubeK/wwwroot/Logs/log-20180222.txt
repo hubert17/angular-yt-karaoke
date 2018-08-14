@@ -1,0 +1,52 @@
+2018-02-22 14:25:33.350 [INFO]    Welcome to Youtube Downloader!
+2018-02-22 14:25:33.354 [INFO]    Easily save your favorite videos from YouTube.
+2018-02-22 14:25:36.293 [INFO]    Saving video...
+2018-02-22 14:27:39.694 [INFO]    Done saving video.
+2018-02-22 14:30:55.636 [INFO]    Welcome to Youtube Downloader!
+2018-02-22 14:30:55.638 [INFO]    Easily save your favorite videos from YouTube.
+2018-02-22 14:31:05.084 [INFO]    Saving video...
+2018-02-22 14:34:08.232 [INFO]    Done saving video.
+2018-02-22 14:35:34.990 [INFO]    Uploading C:\Users\DRIVE_D\My Documents\_GitHub\_YTKaraokeGabs\YoutubeK\YoutubeK\wwwroot\Videos\T5hNsubi90M.mp4...
+2018-02-22 14:38:21.097 [INFO]    Uploading C:\Users\DRIVE_D\My Documents\_GitHub\_YTKaraokeGabs\YoutubeK\YoutubeK\wwwroot\Videos\T5hNsubi90M.mp4...
+2018-02-22 14:50:35.921 [INFO]    Welcome to Youtube Downloader!
+2018-02-22 14:50:35.923 [INFO]    Easily save your favorite videos from YouTube.
+2018-02-22 14:54:17.289 [INFO]    Uploading C:\Users\DRIVE_D\My Documents\_GitHub\_YTKaraokeGabs\YoutubeK\YoutubeK\wwwroot\Videos\T5hNsubi90M.mp4...
+2018-02-22 14:56:01.829 [ERROR]   An error prevented the upload from completing. Ex: System.Threading.Tasks.TaskCanceledException: A task was canceled.
+   at Google.Apis.Http.ConfigurableMessageHandler.<SendAsync>d__59.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable`1.ConfiguredTaskAwaiter.GetResult()
+   at System.Net.Http.HttpClient.<FinishSendAsyncBuffered>d__58.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Google.Apis.Upload.ResumableUpload.<SendNextChunkAsync>d__80.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Google.Apis.Upload.ResumableUpload.<UploadCoreAsync>d__77.MoveNext()
+2018-02-22 14:56:25.604 [INFO]    Uploading C:\Users\DRIVE_D\My Documents\_GitHub\_YTKaraokeGabs\YoutubeK\YoutubeK\wwwroot\Videos\T5hNsubi90M.mp4...
+2018-02-22 15:02:00.244 [INFO]    Uploading C:\Users\DRIVE_D\My Documents\_GitHub\_YTKaraokeGabs\YoutubeK\YoutubeK\wwwroot\Videos\T5hNsubi90M.mp4...
+2018-02-22 15:17:24.231 [ERROR]   An error prevented the upload from completing. Ex: System.Threading.Tasks.TaskCanceledException: A task was canceled.
+   at Google.Apis.Http.ConfigurableMessageHandler.<SendAsync>d__59.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable`1.ConfiguredTaskAwaiter.GetResult()
+   at System.Net.Http.HttpClient.<FinishSendAsyncBuffered>d__58.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Google.Apis.Upload.ResumableUpload.<SendNextChunkAsync>d__80.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Google.Apis.Upload.ResumableUpload.<UploadCoreAsync>d__77.MoveNext()
+2018-02-22 15:18:01.835 [INFO]    Uploading C:\Users\DRIVE_D\My Documents\_GitHub\_YTKaraokeGabs\YoutubeK\YoutubeK\wwwroot\Videos\T5hNsubi90M.mp4...
